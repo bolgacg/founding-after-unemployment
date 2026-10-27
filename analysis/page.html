@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Founding After Unemployment</title>
+<meta name="description" content="When Danish unemployment rises, do more people start firms, and is AI exposure changing the jobs they leave? Public Statistics Denmark and ILO data, fetched {{fetched}}, and where those tables stop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* House editorial style, light mode only. */
+:root{
+  color-scheme: light;
+  --paper:#faf9f7; --ink:#1a1d21; --soft:#5b6470; --faint:#7d8793; --rule:#e2e0dc;
+  --pos:#2f7d54; --neg:#b03a3a; --accent:#2c4a6b; --accent2:#4f7cac; --panel:#f3f1ed; --grey:#9aa1aa;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans);margin:0;padding:30px 16px 80px;overflow-x:hidden}
+.wrap{max-width:1040px;margin:0 auto}
+a{color:var(--accent)}
+a:hover{color:var(--ink)}
+.topnav{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;font:500 12px/1.4 var(--mono);letter-spacing:.06em;margin:0 0 20px}
+.topnav a{text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px}
+.topnav button{font:inherit;letter-spacing:inherit;background:none;border:1px solid var(--accent);color:var(--accent);border-radius:3px;padding:3px 10px;cursor:pointer}
+.topnav button:hover{background:var(--accent);color:#fff}
+.eyebrow{font:500 11px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+h1{font:600 38px/1.12 var(--serif);letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance;max-width:26ch}
+.standfirst{font:400 19px/1.5 var(--serif);color:#3d444d;margin:0 0 14px;max-width:68ch}
+h2{font:600 25px/1.25 var(--serif);margin:52px 0 8px;text-wrap:balance;max-width:40ch}
+h2 .no{font-family:var(--mono);font-weight:500;font-size:15px;color:var(--faint);margin-right:8px;vertical-align:3px}
+h3{font:600 15.5px/1.35 var(--sans);margin:24px 0 6px}
+p{margin:0 0 13px}
+.wrap > p, .wrap > ul, .wrap > ol{max-width:72ch}
+.why{color:var(--soft);max-width:70ch;font-style:italic;font-family:var(--serif);font-size:17.5px;line-height:1.5}
+.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.byline{font-size:13.5px;color:var(--soft);margin:0 0 18px}
+
+/* headline questions */
+.qa{border-top:1px solid var(--rule);margin:8px 0 6px;max-width:860px}
+.qa div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:4px 24px;padding:9px 0;border-bottom:1px solid var(--rule);font-size:15px;line-height:1.45}
+.qa b{font-weight:600}
+.qa span{color:#30363d}
+
+/* figures */
+figure{margin:20px 0 8px}
+.chartbox{border:1px solid var(--rule);border-radius:4px;background:#fff;padding:12px 12px 6px;position:relative}
+.chartbox svg{display:block;width:100%;height:auto;overflow:visible}
+.chartbox svg text{font-family:var(--sans)}
+.chartbox svg text.h{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--soft);margin:10px 2px 2px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px}
+.caption{font-size:13.5px;color:var(--soft);margin:10px 0 0;max-width:76ch}
+.caption p{margin:0 0 5px}
+.caption b{color:var(--ink);font-weight:600}
+.hint{font-size:13.5px;color:var(--soft);margin:8px 0 0}
+.hint b{color:var(--ink)}
+.readout{font-size:13.5px;margin:8px 0 0;min-height:1.5em;color:var(--ink)}
+.figtitle{font:600 14px/1.35 var(--sans);margin:0 0 6px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:14px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font:500 13px/1.2 var(--sans);border:1px solid #b9c0c8;background:#fff;color:var(--ink);border-radius:999px;padding:7px 13px;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctl{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--soft)}
+select,input[type=text]{font:500 13.5px/1.2 var(--sans);border:1px solid #b9c0c8;border-radius:4px;padding:7px 9px;background:#fff;color:var(--ink);max-width:100%}
+select:hover,input[type=text]:hover{border-color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent);margin:8px 0 0}
+
+/* primer and glossary */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px}
+.primer{margin:0;padding-left:20px}
+.primer li{margin:0 0 9px}
+dl.gloss{margin:0;font-size:14px}
+dl.gloss dt{font-weight:600;margin-top:8px}
+dl.gloss dd{margin:0;color:var(--soft)}
+blockquote{margin:16px 0;padding:2px 0 2px 16px;border-left:3px solid var(--accent);font:400 18px/1.45 var(--serif);max-width:70ch}
+blockquote cite{display:block;font:400 12.5px/1.45 var(--sans);color:var(--faint);margin-top:6px;font-style:normal}
+
+/* tables */
+table.t{width:100%;border-collapse:collapse;margin:12px 0 6px;font-size:14px}
+table.t th{font:500 10.5px/1.3 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--faint);text-align:left;padding:0 12px 8px 0;border-bottom:1px solid var(--ink);vertical-align:bottom}
+table.t th.n{text-align:right}
+table.t td{padding:9px 12px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+table.t td.n{text-align:right;white-space:nowrap}
+table.t tr.ref td{background:#eef2f7;font-weight:600}
+table.t td:first-child{padding-left:6px}
+table.t th:first-child{padding-left:6px}
+.note{font-size:13.5px;color:var(--soft);max-width:76ch}
+table.t.spells{max-width:520px;font-size:13.5px;margin-top:6px}
+table.t.spells td{padding:5px 12px 5px 6px}
+
+/* boxes */
+.verdict{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin:24px 0;max-width:76ch}
+.verdict h3{margin:0 0 6px;font-size:16px}
+.verdict p{margin:0 0 8px}
+.warnbox{border-left:3px solid var(--neg);padding:4px 0 4px 18px;margin:24px 0;max-width:76ch}
+.warnbox h3{margin-top:0}
+.handover{font-family:var(--serif);font-size:17px;color:#3d444d;max-width:70ch;border-top:1px solid var(--rule);padding-top:12px;margin-top:22px}
+.calc{border:1px solid var(--rule);background:#fff;border-radius:4px;padding:14px 16px;margin:20px 0;max-width:80ch}
+.calc h3{margin:0 0 8px}
+.calc dl{margin:0;display:grid;grid-template-columns:120px minmax(0,1fr);gap:6px 14px;font-size:14.5px}
+.calc dt{font:500 11px/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.calc dd{margin:0}
+
+/* the greyed registry panel */
+.registry{border:1.5px dashed #a9afb7;background:#f1f1f0;border-radius:6px;padding:18px 18px 8px;margin:18px 0;color:#444b53}
+.registry .tag{display:inline-block;font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#6b727b;border:1px solid #a9afb7;border-radius:3px;padding:3px 8px;margin-bottom:10px;background:#fafafa}
+.registry table.t th{color:#6b727b;border-bottom-color:#6b727b}
+.registry table.t td{border-bottom-color:#d9d9d6}
+.registry table.t td.miss{color:#8a5a5a}
+.question{border:1px solid #a9afb7;background:#fafafa;border-radius:4px;padding:14px 16px;margin:16px 0 12px}
+.question h3{margin:0 0 6px;font:600 19px/1.35 var(--serif);color:var(--ink)}
+.question dl{margin:10px 0 0;display:grid;grid-template-columns:120px minmax(0,1fr);gap:7px 14px;font-size:14.5px}
+.question dt{font:500 11px/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#6b727b}
+.question dd{margin:0}
+
+ul.plain{padding-left:20px;max-width:76ch}
+ul.plain li{margin-bottom:8px}
+pre{font:13px/1.55 var(--mono);background:#fff;border:1px solid var(--rule);border-radius:4px;padding:12px 14px;overflow-x:auto;max-width:100%}
+code{font-family:var(--mono);font-size:.92em}
+footer{margin-top:54px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--soft);max-width:80ch}
+footer p{margin:0 0 8px}
+
+/* tooltip */
+.tip{position:absolute;pointer-events:none;background:#fff;border:1px solid var(--rule);box-shadow:0 4px 14px rgba(0,0,0,.12);border-radius:4px;padding:7px 9px;font-size:12.5px;line-height:1.4;max-width:240px;display:none;z-index:5}
+
+/* tour */
+.tour-hole{position:absolute;z-index:50;border-radius:6px;box-shadow:0 0 0 9999px rgba(22,25,30,.52);pointer-events:none;transition:all .25s ease;outline:2px solid #fff}
+.tour-card{position:absolute;z-index:51;background:#fff;border:1px solid var(--rule);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:14px 16px 12px;width:min(370px,calc(100vw - 32px));font-size:14px}
+.tour-card h4{font:600 16px/1.3 var(--serif);margin:0 0 6px;padding-right:20px}
+.tour-card p{margin:0 0 10px;color:var(--soft)}
+.tour-card .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tour-card .dots{display:flex;gap:5px}
+.tour-card .dots i{width:7px;height:7px;border-radius:50%;background:var(--rule)}
+.tour-card .dots i.on{background:var(--accent)}
+.tour-card button{font:500 13px/1 var(--sans);border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:3px;padding:7px 11px;cursor:pointer}
+.tour-card button.primary{background:var(--accent);color:#fff}
+.tour-card .x{position:absolute;top:6px;right:8px;border:none;padding:4px 6px;font-size:18px;color:var(--faint)}
+
+@media (max-width:760px){
+  body{padding:24px 16px 64px}
+  h1{font-size:29px}
+  .standfirst{font-size:17px}
+  h2{font-size:22px}
+  .qa div{grid-template-columns:minmax(0,1fr);gap:2px}
+  .two{grid-template-columns:minmax(0,1fr);gap:10px}
+  .chartbox{padding:8px 6px 4px}
+  .calc dl,.question dl{grid-template-columns:minmax(0,1fr);gap:0 0}
+  .calc dd,.question dd{margin-bottom:8px}
+  table.t.stack, table.t.stack tbody, table.t.stack tr, table.t.stack td{display:block;width:100%}
+  table.t.stack thead{display:none}
+  table.t.stack tr{border-bottom:1px solid var(--rule);padding:8px 0}
+  table.t.stack td{border:none;padding:2px 6px;text-align:left}
+  table.t.stack td.n{text-align:left;white-space:normal}
+  table.t.stack td[data-k]::before{content:attr(data-k);display:block;font:500 10px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:4px}
+  table.t.stack td:first-child::before{display:none}
+  table.t.stack td:first-child{font-weight:600}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="topnav" aria-label="Page">
+  <a href="#primer">Primer</a>
+  <a href="#places">1 Places</a>
+  <a href="#people">2 People</a>
+  <a href="#ai">3 AI exposure</a>
+  <a href="#registry">4 What is missing</a>
+  <a href="https://github.com/bolgacg/founding-after-unemployment">Code and data</a>
+  <button type="button" id="tourbtn">Walk me through it</button>
+</nav>
+
+<div class="eyebrow">Work sample &middot; PhD Position in Entrepreneurship, AI, and Labor Market Disruption, DTU Entrepreneurship &middot; Bolga&ccedil; G&uuml;len</div>
+<h1>When unemployment rises in Denmark, do more people start firms?</h1>
+<p class="standfirst">In the public aggregates, no: when a Danish municipality's long term unemployment rose between {{first}} and {{last}}, its number of new firms did not move, yet person by person the unemployed became self employed at {{ratio}} times the rate of employees. No public table can join those two facts, because none says who the founders were, which job they left, how long they had been out of work, or how exposed that job was to generative AI. That join is what the project's registry data makes possible, and this page shows where each public table stops.</p>
+<p class="byline">Every number below is computed from Statistics Denmark and ILO data fetched on {{fetched}} by the scripts in <a href="https://github.com/bolgacg/founding-after-unemployment">this repository</a>.</p>
+
+<div class="qa" id="headline">
+  <div><b>Do municipalities with more long term unemployment have more new firms?</b><span>No, fewer: {{between_abs1}} fewer new firms per 1,000 people in the labour force for each extra percentage point.</span></div>
+  <div><b>When one municipality's long term unemployment rises, do its new firms rise?</b><span>No detectable change: {{fe_b}} per point, with a 95 percent interval from {{fe_lo}} to {{fe_hi}}.</span></div>
+  <div><b>Do unemployed people become self employed?</b><span>Yes: {{rate_unemp}} percent of them each quarter in {{flow_years}}, {{ratio}} times the rate of employees.</span></div>
+  <div><b>Have the occupations most exposed to generative AI shrunk in Denmark?</b><span>Not yet: their share of full time employees was {{high_first}} percent in {{exp_first}} and {{high_last}} percent in {{exp_last}}.</span></div>
+  <div><b>What can no public table show?</b><span>The job, industry and unemployment spell each founder came from, which the project's registry data holds.</span></div>
+</div>
+
+<figure id="bluf">
+  <p class="figtitle">The same {{n_obs}} municipality years give a negative link or none, depending on what is compared with what</p>
+  <div class="chartbox" id="blufbox"><div id="bluf-chart"></div></div>
+  <div class="caption">
+    <p><b>What you see:</b> five estimates of one number from the same data: how many more new firms per 1,000 people in the labour force go with one percentage point more long term unemployment, {{n_munis}} municipalities, {{first}} to {{last}}. Each bar is a 95 percent confidence interval.</p>
+    <p><b>How to read it:</b> a dot left of the dashed zero line means more long term unemployment goes with fewer new firms; a bar that crosses zero means the data cannot tell the sign.</p>
+    <p><b>What to take from it:</b> the negative link comes from comparing different places; once each municipality is compared with itself over time, net of each year's national swing, the estimate is {{fe_b}}. A pattern across places says little about what unemployed people do.</p>
+  </div>
+</figure>
+
+<h2 id="primer">Five things to know before the charts</h2>
+<p class="why">The page uses a few terms from Danish labour statistics and from panel econometrics. These five statements and the glossary are enough to read every chart.</p>
+<div class="two">
+  <ol class="primer">
+    <li>Statistics Denmark publishes counts for groups of people (a municipality, an age band, an occupation) in a free database called StatBank, never for named persons. Every table on this page comes from StatBank and is named by its id, such as DEMO9.</li>
+    <li>A person is long term unemployed when they have been gross unemployed for at least 52 weeks in a row. Gross unemployment counts people on unemployment benefit or social assistance who are available for work, including those placed in job training schemes.</li>
+    <li>A new enterprise is a business that starts real activity in a year and is not a takeover, split or change of legal form of an existing one. It is a firm, not a person.</li>
+    <li>Self employed is a person's main labour market status in the registers: running their own business, or working in a spouse's business.</li>
+    <li>A fixed effects regression compares each municipality with itself over time, and each year with that year's national average, so stable differences between places and national booms and slumps cannot drive the estimate.</li>
+  </ol>
+  <dl class="gloss">
+    <dt>Labour force</dt><dd>People in work plus the gross unemployed. I use it as the denominator for new firms, from table RAS400.</dd>
+    <dt>Percentage point</dt><dd>A change in a percentage: from 0.5 to 1.5 percent of the labour force is one percentage point.</dd>
+    <dt>95 percent confidence interval</dt><dd>The range of values compatible with the data at the usual standard. My standard errors are clustered by municipality, so repeated years of one place are not treated as independent evidence.</dd>
+    <dt>Ecological fallacy</dt><dd>Reading a pattern across places as if it described the people in them (Robinson 1950).</dd>
+    <dt>Necessity entrepreneur</dt><dd>A person who starts a firm because they have no other options for work, often after unemployment.</dd>
+    <dt>Home industry</dt><dd>The industry a founder worked in before; founding outside it means entering an industry they have not worked in.</dd>
+    <dt>ISCO-08 and DISCO-08</dt><dd>The international classification of occupations and its Danish version, which share the same four digit codes.</dd>
+    <dt>Generative AI exposure</dt><dd>A score from 0 to 1 for how much of an occupation's tasks generative AI could perform. It measures technical potential, not expected job loss.</dd>
+  </dl>
+</div>
+
+<h2>Where this starts: the 2019 paper and the project</h2>
+<p class="why">The question on this page is the first step of the project's own question, and the 2019 paper is the reason duration and home industry appear in every act below.</p>
+<blockquote>&ldquo;We find that unemployment duration affects whether ventures are launched in &lsquo;home&rsquo; or in external industries, and moderates the extent to which founders&rsquo; industry experience and the attractiveness of external opportunities relative to those in the &lsquo;home&rsquo; industry shape industry choice.&rdquo;
+  <cite>Nikiforou, Dencker and Gruber (2019), Necessity entrepreneurship and industry choice in new firm creation, Strategic Management Journal 40(13), 2165 to 2190, <a href="https://doi.org/10.1002/smj.3075">doi 10.1002/smj.3075</a>. Abstract, published under CC BY.</cite></blockquote>
+<p>The paper analysed 576 necessity entrepreneurs in Greece, joined to three secondary data sets. The long term unemployed were less likely than the short term unemployed to stay in their home industry, and more susceptible to the sunk cost fallacy. When the long term unemployed had high industry specific experience, they were more likely to stay in their home industry, so unemployment duration changes how experience and the attractiveness of other industries shape the choice (<a href="https://www.entrepreneurship.dtu.dk/news-and-events/news/2020/07/how-does-unemployment-duration-affect-necessity-entrepreneurs">DTU Entrepreneurship, July 2020</a>).</p>
+<p>The PhD project, The New Landscape of Necessity Entrepreneurship, funded by the Swiss National Science Foundation, asks how AI and automation shape the move from unemployment into entrepreneurship, with surveys, interviews and Danish administrative registers (DTU job advertisement 8416). Before using registers, I wanted to know how far the free public tables go on the same question.</p>
+
+<h2 id="places"><span class="no">1</span>Places with more long term unemployment have fewer new firms, but a rise in one place does not change its count</h2>
+<p class="why">If unemployment pushed people into founding, a municipality whose long term unemployment rose should see more new firms. This is the cheapest test of the project's question with public data, and the first one a reader of StatBank would run.</p>
+<p>I joined three tables for Denmark's {{n_munis}} municipalities from {{first}} to {{last}}: new enterprises (DEMO9), long term unemployment as a percentage of the labour force (AULK04, the mean of the twelve monthly values) and the labour force at the end of November (RAS400). The outcome is new firms per 1,000 people in the labour force, which averages {{mean_rate}} across the {{n_obs}} municipality years.</p>
+<p>DEMO9 also has a column of employees, but it counts the staff of the new firms themselves: {{staff_2009}} full time persons for {{births_2009}} new firms in 2009. I therefore divide by the labour force instead.</p>
+
+<div id="p1wrap">
+<div class="controls">
+  <div class="chips" id="p1view" role="group" aria-label="View">
+    <button type="button" class="chip" data-v="raw" aria-pressed="true">Compare places</button>
+    <button type="button" class="chip" data-v="within" aria-pressed="false">Follow each place over time</button>
+  </div>
+  <label class="ctl">Municipality <select id="p1muni"></select></label>
+</div>
+<p class="hint"><b>Switch the view</b> to remove each municipality's own average and each year's national swing; the dots move to where only the changes within a municipality remain. <b>Pick a municipality</b> to draw its {{first}} to {{last}} path.</p>
+<figure>
+  <div class="chartbox" id="p1box"><div id="p1-chart"></div><div class="tip" id="p1tip"></div></div>
+  <p class="readout" id="p1read"></p>
+</figure>
+</div>
+<div class="caption">
+  <p><b>What you see:</b> each dot is one municipality in one year: long term unemployment across, new firms per 1,000 people in the labour force up. The line is the fitted slope for the view you chose.</p>
+  <p><b>How to read it:</b> in the first view, the dots of one municipality sit together, so the slope mostly compares places. In the second, each dot shows how far that municipality was from its own average and from that year's national level, with the overall averages added back so the axes keep their units.</p>
+  <p><b>What to take from it:</b> the pooled slope is {{pooled_b}}; following each municipality over time, it is {{fe_b}} (95 percent interval {{fe_lo}} to {{fe_hi}}).</p>
+</div>
+
+<h3>Other specifications give the same answer</h3>
+<p>Each row below is a two way fixed effects regression with municipality and year effects and standard errors clustered by municipality, estimated with PanelOLS in the Python package linearmodels. The units are the same as in the chart.</p>
+<table class="t stack">
+  <thead><tr><th>Specification</th><th class="n">Estimate</th><th class="n">95 percent interval</th><th class="n">Years</th><th class="n">Observations</th></tr></thead>
+  <tbody>
+{{spec_rows}}
+  </tbody>
+</table>
+<p class="note">The shaded row is the main estimate. The lagged row loses {{first}} because AULK04 starts in January {{first}}. The largest estimate, {{lag_b}} for the year before, still has an interval from {{lag_lo}} to {{lag_hi}}.</p>
+
+<div class="verdict">
+  <h3>The public municipal panel shows no push into founding, in either direction.</h3>
+  <p>The two way fixed effects estimate is {{fe_b}} new firms per 1,000 people in the labour force per percentage point of long term unemployment (95 percent interval {{fe_lo}} to {{fe_hi}}, {{n_obs}} municipality years), against an average of {{mean_rate}}. The negative link in the pooled data comes from stable differences between municipalities, so reading it as a statement about unemployed people would be the ecological fallacy.</p>
+  <p>The estimate is aggregate and not causal. A municipality's new firms mix founders who were unemployed with founders who left jobs, and a downturn can push the first group in while it holds the second group back.</p>
+</div>
+<p class="handover">Places cannot answer the project's question, because the people who found are hidden inside the totals. The next act therefore looks at the closest public table to people: how many of the unemployed become self employed each quarter.</p>
+
+<h2 id="people"><span class="no">2</span>Person by person, the unemployed become self employed at {{ratio}} times the employee rate</h2>
+<p class="why">The project's question is about individuals, and FLOW1 is the public table closest to them: it counts people whose labour market status changed from one quarter to the next.</p>
+<p>For each year I divided the number of people who went from unemployed to self employed by everyone who was unemployed at the start of the quarter, and did the same for employees. Pooled over {{flow_years}}, the rate is {{rate_unemp}} percent per quarter for the unemployed against {{rate_emp}} percent for employees.</p>
+
+<div id="p2wrap">
+<div class="controls">
+  <div class="chips" id="p2year" role="group" aria-label="Year"></div>
+</div>
+<p class="hint"><b>Click a year</b> to redraw the rates for that year; the first chip pools {{flow_years}}. 2020 is lower, {{rate_unemp_2020}} percent for the unemployed, likely because of the pandemic lockdowns; this page does not test that.</p>
+<figure>
+  <div class="chartbox" id="p2box"><div id="p2-chart"></div></div>
+  <div class="legend"><span><span class="sw" style="background:var(--accent)"></span>Unemployed at the start of the quarter</span><span><span class="sw" style="background:#fff;border:1.5px solid var(--grey)"></span>Employees at the start of the quarter</span></div>
+</figure>
+</div>
+<div class="caption">
+  <p><b>What you see:</b> for each age group, the share of people who were self employed one quarter later, among those who started the quarter unemployed (dark dot) or as employees (open dot).</p>
+  <p><b>How to read it:</b> the longer the line between the two dots, the larger the gap between the two groups at that age.</p>
+  <p><b>What to take from it:</b> at every working age the unemployed move into self employment far more often than employees, with the peak at ages {{peak_age}} ({{peak_rate}} percent per quarter, pooled).</p>
+</div>
+<p>Most new self employed still come from jobs, because there are far more employees than unemployed people: in {{flow_last_year}}, {{from_unemp_last}} moves into self employment came from unemployment, against {{from_emp_last}} from employee jobs.</p>
+
+<h3>How long people stay unemployed</h3>
+<p>The 2019 paper's key variable is time spent unemployed. StatBank's AULK09 counts, each month, the people whose current gross unemployment spell has lasted at least 26, 39, 52, 78, 104, 130 or 156 weeks, which shows how large the long term group is at any time.</p>
+<div id="p2bwrap">
+<p class="hint"><b>Drag the slider</b> under the chart to move the dashed line to any month; the table below it gives every duration for that month.</p>
+<figure>
+  <div class="chartbox"><div id="p2b-chart"></div><input type="range" id="p2bslider" aria-label="Month"></div>
+  <div class="legend" id="p2b-legend"></div>
+  <p class="readout" id="p2bread"></p>
+</figure>
+</div>
+<div class="caption">
+  <p><b>What you see:</b> the number of people in a spell of at least 26, 52 or 104 weeks, each month from {{spells_start}} to {{last_month}}. Each line starts when the register has enough weeks of history to count it.</p>
+  <p><b>How to read it:</b> the gap between two lines is the number of people whose spell is between those two durations.</p>
+  <p><b>What to take from it:</b> in {{last_month}}, {{last52}} people had been unemployed for at least a year, against {{peak52}} at the peak in {{peak52_month}}.</p>
+</div>
+<p>No public table follows these people into their next status, so the duration result of the 2019 paper cannot be checked here. AULK09 counts spells and FLOW1 counts moves, and nothing links the two.</p>
+
+<div class="calc" id="scale">
+  <h3>Why the municipal panel cannot see these moves: a rough scale</h3>
+  <dl>
+    <dt>Scale</dt><dd>One more percentage point of unemployment means ten more unemployed people per 1,000 in the labour force. If each of them entered self employment at the unemployed rate rather than the employee rate for four quarters, that adds about {{benchmark}} entries per 1,000 a year.</dd>
+    <dt>Panel</dt><dd>With all gross unemployment (AUS08) as the regressor, the two way fixed effects estimate is {{unr_b}}, with an interval from {{unr_lo}} to {{unr_hi}}, which lies below that scale.</dd>
+    <dt>Reading</dt><dd>When unemployment rises in a municipality, new enterprises rise by less than the unemployed's own entry rate would add. Either their entries do not appear as new enterprises in DEMO9, or other people start fewer firms in the same years, and aggregate tables cannot tell these two apart.</dd>
+    <dt>Caveat</dt><dd>This is my back of the envelope calculation: a change of status in FLOW1 is not the same unit as a new enterprise in DEMO9, and the people who become unemployed in a downturn may differ from the average unemployed person.</dd>
+  </dl>
+</div>
+
+<div class="verdict">
+  <h3>The move from unemployment into self employment is real, and the public record shows it only as a count.</h3>
+  <p>Each quarter in {{flow_years}}, {{rate_unemp}} percent of the unemployed became self employed, against {{rate_emp}} percent of employees. FLOW1 does not say which industry they entered, what job they had before, or how long they had been unemployed.</p>
+</div>
+<p class="handover">If the unemployed found at this rate, the project's next question is which jobs they come from, and whether generative AI is changing those jobs. Act three asks what the public record shows about that.</p>
+
+<h2 id="ai"><span class="no">3</span>About a fifth of Danish employees work in highly exposed occupations, and that share has not moved</h2>
+<p class="why">The project asks how AI shapes the move into entrepreneurship. Before any link to people, the first public fact is where generative AI exposure sits in the Danish job stock, and whether exposed jobs are already shrinking.</p>
+<p>I joined the ILO's 2025 generative AI exposure index (Gmyrek and others 2025, ILO Working Paper 140), which scores each of {{n_ilo}} ISCO-08 occupations by how much of its tasks generative AI could perform, to Statistics Denmark's count of full time employees in each DISCO-08 occupation (LONS20), {{exp_first}} to {{exp_last}}. Of {{n_disco}} Danish four digit codes, {{n_matched}} match, covering {{cover_last}} percent of employees in {{exp_last}}.</p>
+
+<figure id="p3a">
+  <p class="figtitle">Full time employees by ILO exposure group, as a share of matched employees</p>
+  <div class="chartbox"><div id="p3a-chart"></div></div>
+  <div class="legend" id="p3a-legend"></div>
+</figure>
+<div class="caption">
+  <p><b>What you see:</b> one bar per year, split into the ILO's six exposure groups, from occupations not exposed on the left to gradient 4, the most exposed, on the right.</p>
+  <p><b>How to read it:</b> gradients 3 and 4 are occupations whose average task score is at least 0.5; the number at the right end of each bar is their combined share.</p>
+  <p><b>What to take from it:</b> the two most exposed groups held {{high_first}} percent of full time employees in {{exp_first}}, {{high_2022}} percent in 2022 and {{high_last}} percent in {{exp_last}}.</p>
+</div>
+
+<h3>Did exposed occupations lose ground after ChatGPT?</h3>
+<p>ChatGPT was released at the end of November 2022, so 2022 is the last full year before generative AI tools were widely used. For each occupation with at least 500 full time employees at the start of a period, I compared its share of all matched employees at the end of the period with its share at the start.</p>
+<div id="p3wrap">
+<div class="controls">
+  <div class="chips" id="p3period" role="group" aria-label="Period">
+    <button type="button" class="chip" data-p="b" aria-pressed="false">2019 to 2022, before ChatGPT</button>
+    <button type="button" class="chip" data-p="a" aria-pressed="true">2022 to {{exp_last}}, after ChatGPT</button>
+  </div>
+  <label class="ctl">Find an occupation <input type="text" id="p3find" list="p3list" placeholder="Type a job title" size="22"></label>
+  <datalist id="p3list"></datalist>
+</div>
+<p class="hint"><b>Switch the period</b> to compare the years after ChatGPT with the three years before it. <b>Type or tap an occupation</b> to read its numbers.</p>
+<figure>
+  <div class="chartbox" id="p3box"><div id="p3-chart"></div><div class="tip" id="p3tip"></div></div>
+  <div class="legend"><span><span class="sw" style="background:#2c4a6b;opacity:.75;border-radius:50%"></span>Gradients 3 and 4, the most exposed</span><span><span class="sw" style="background:#9aa1aa;opacity:.6;border-radius:50%"></span>Other occupations</span><span><svg width="22" height="10" aria-hidden="true"><line x1="1" y1="5" x2="21" y2="5" stroke="#1a1d21" stroke-dasharray="4 4"/></svg>No change in share</span><span>Circle area: employees at the start of the period</span></div>
+  <p class="readout" id="p3read"></p>
+</figure>
+</div>
+<div class="caption">
+  <p><b>What you see:</b> each circle is one occupation, sized by its employees at the start of the period: ILO exposure score across, change in its share of employees up. Dark circles are gradients 3 and 4.</p>
+  <p><b>How to read it:</b> if exposed occupations were shrinking, the dark circles on the right would sit below the dashed line.</p>
+  <p><b>What to take from it:</b> across {{n_after}} occupations the correlation between exposure and the 2022 to {{exp_last}} change in share is {{r_after}}, the same as for 2019 to 2022 ({{r_before}}).</p>
+</div>
+<p class="note">Weighted by employees, the correlation is {{rw_after}} after ChatGPT and {{rw_before}} before, pulled up by large exposed occupations that grew, such as software developers; the rank correlation after ChatGPT is {{rs_after}}.</p>
+
+<div class="verdict">
+  <h3>The Danish employee count shows no sign yet that exposed occupations are shrinking.</h3>
+  <p>Across {{n_after}} occupations, exposure and the 2022 to {{exp_last}} change in employment share correlate at {{r_after}}, as they did before ChatGPT ({{r_before}}). Exposure is a technical potential, not job loss, and LONS20 leaves out the self employed, the group the project studies.</p>
+</div>
+<p class="handover">The job stock shows no AI shift yet, and the stock is the wrong unit anyway: the project needs the job each founder left. That is the last panel, and it is empty in the public record.</p>
+
+<h2 id="registry"><span class="no">4</span>What the public record cannot show, and the project's registry data can</h2>
+<p class="why">Each act above stopped at the same place: the public tables count groups, and the project's question is about the path of one person from a job, through unemployment, into a firm.</p>
+<div class="registry" id="regpanel">
+  <span class="tag">Not in public data &middot; proposed, not run</span>
+  <table class="t stack">
+    <thead><tr><th>What the project needs</th><th>Closest public table</th><th>What it lacks</th><th>What registry data adds</th></tr></thead>
+    <tbody>
+      <tr><td>Previous occupation and industry of each founder</td><td data-k="Closest public table">FLOW1 status moves; LONS20 employees by occupation</td><td class="miss" data-k="What it lacks">No link from a founder to the job they left</td><td data-k="What registry data adds">Employer, industry and DISCO code of the last job, linked by person</td></tr>
+      <tr><td>Unemployment spell length per person</td><td data-k="Closest public table">AULK09 counts of spells</td><td class="miss" data-k="What it lacks">Spells are counted, never followed into self employment</td><td data-k="What registry data adds">Weekly benefit records, so the exact spell before founding</td></tr>
+      <tr><td>Founding in the home industry or a new one</td><td data-k="Closest public table">DEMO11 new enterprises by industry</td><td class="miss" data-k="What it lacks">Firms by industry, with no founder attached</td><td data-k="What registry data adds">The industry of the new firm next to the industry of the founder's last job</td></tr>
+      <tr><td>Education and age of each founder</td><td data-k="Closest public table">FLOW1 by age band</td><td class="miss" data-k="What it lacks">Age bands only, no education for founders</td><td data-k="What registry data adds">Highest education and exact age</td></tr>
+      <tr><td>AI exposure of the job each founder left</td><td data-k="Closest public table">The ILO index joined to LONS20, act 3</td><td class="miss" data-k="What it lacks">Exposure of the job stock, not of the people who leave it</td><td data-k="What registry data adds">The ILO score of each founder's last occupation</td></tr>
+    </tbody>
+  </table>
+  <div class="question" id="question">
+    <h3>The question I would want to test inside the project: does the AI exposure of a person's last job change how far from their home industry they found after unemployment?</h3>
+    <dl>
+      <dt>Why</dt><dd>The 2019 paper showed that time in unemployment changes industry choice. Exposure could act on the same choice: a founder whose last job is highly exposed may expect less from staying in the home industry.</dd>
+      <dt>Prediction</dt><dd>Higher exposure of the last job goes with founding further from the home industry, and more so after long spells.</dd>
+      <dt>Design</dt><dd>People who become self employed within a year of an unemployment spell. Outcome: founding in the home industry or not, and the distance between the old and the new industry. Main variable: the ILO exposure of the last occupation, interacted with spell length in weeks. Controls: industry experience, education, age, local labour market and year.</dd>
+      <dt>Comparison</dt><dd>Spells that ended before and after late 2022, and people from the same spells who returned to a job instead of founding.</dd>
+      <dt>Caveat</dt><dd>Exposure is a technical score from one index, so I would repeat the analysis with a second index and treat exposure as a feature of the job, not as a measured shock.</dd>
+    </dl>
+  </div>
+</div>
+
+<h2>Limits of this page</h2>
+<p class="why">These are the places where a reader could be misled by the numbers above, stated before they find them.</p>
+<ul class="plain">
+  <li>New enterprises are registered units, not founders. One person can start several, and a team that founds together counts once.</li>
+  <li>Statistics Denmark changed the business demography series in 2019: the old series (DEMO1, DEMO9) counts {{demo_old_2019}} new enterprises in 2019 and the new one (DEMO11, DEMO19) counts {{demo_new_2019}} for the same year. I never splice them; the panel ends in {{last}} inside the old series.</li>
+  <li>FLOW1 sets small cells to 0, which I cannot tell apart from true zeros; {{zero_cells}} age and quarter cells from unemployment into self employment are 0. FLOW1 covers three of the four quarter changes in each year (first to second, second to third, third to fourth), and its self employed include people working in a spouse's business.</li>
+  <li>LONS20 counts employees only, in all of government and in private firms with at least ten full time employees outside farming, forestry and fishing. The self employed are not in it.</li>
+  <li>Two Danish codes for educational work have no ISCO match ({{edu_2343}} and {{edu_2357}} full time employees in {{exp_last}}), so the exposure shares leave them out.</li>
+  <li>Exposure scores are contested: they measure what a model judges generative AI could do with each task, and indices built in other ways rank occupations differently. The ILO scores are themselves produced from two language models' task ratings, with expert review of disputed tasks.</li>
+  <li>The panel is aggregate and not causal. Clustering by municipality allows for correlation within a municipality over time, but not between neighbouring municipalities that share a commuting area.</li>
+</ul>
+
+<h2>How it was built and how to rerun it</h2>
+<p>Three Python scripts in the repository produce everything on this page. <code>fetch.py</code> downloads the eleven StatBank tables through the StatBank API and the ILO scores from the authors' repository (commit <a href="{{ilo_commit_url}}">{{ilo_commit}}</a>), and records the date. <code>analyse.py</code> computes every estimate and writes the CSV files in <code>data/</code>. <code>render.py</code> writes the numbers into this page and stops if any number in the text is not computed.</p>
+<pre>git clone https://github.com/bolgacg/founding-after-unemployment
+cd founding-after-unemployment
+python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r analysis/requirements.txt
+python3 -I analysis/fetch.py raw
+.venv/bin/python -I analysis/analyse.py raw data
+python3 -I analysis/render.py analysis/page.html data/results.json index.html</pre>
+<p class="note">A rerun on a later day fetches newer data, so some numbers may change as Statistics Denmark revises its tables.</p>
+
+<h2>Sources</h2>
+<ul class="plain note">
+{{source_rows}}
+  <li>Gmyrek, P., Berg, J., Kami&#324;ski, K., Konopczy&#324;ski, F., &#321;adna, A., Nafradi, B., Ros&#322;aniec, K. and Troszy&#324;ski, M. (2025). Generative AI and Jobs: A Refined Global Index of Occupational Exposure. ILO Working Paper 140. Scores from <a href="https://github.com/pgmyrek/2025_GenAI_scores_ISCO08">github.com/pgmyrek/2025_GenAI_scores_ISCO08</a>, licensed CC BY 4.0; I use the occupation mean and exposure group, unchanged.</li>
+  <li>Nikiforou, A., Dencker, J. C. and Gruber, M. (2019). Necessity entrepreneurship and industry choice in new firm creation. Strategic Management Journal 40(13), 2165 to 2190. <a href="https://doi.org/10.1002/smj.3075">doi 10.1002/smj.3075</a>.</li>
+  <li>DTU Entrepreneurship (July 2020). <a href="https://www.entrepreneurship.dtu.dk/news-and-events/news/2020/07/how-does-unemployment-duration-affect-necessity-entrepreneurs">How does unemployment duration affect necessity entrepreneurs?</a></li>
+  <li>Robinson, W. S. (1950). Ecological correlations and the behavior of individuals. American Sociological Review 15(3), 351 to 357.</li>
+  <li>Statistics Denmark documentation of <a href="https://www.dst.dk/documentationofstatistics/79a2287f-abc7-4392-9f06-43e60c82631a">registered unemployment</a> (definition of long term unemployment) and of the <a href="https://www.dst.dk/documentationofstatistics/39350029-3a77-4daa-b3b1-eb41b3ef963a">structure of earnings</a> (coverage of LONS20).</li>
+</ul>
+
+<footer>
+  <p>Code, derived data and the scripts that write this page: <a href="https://github.com/bolgacg/founding-after-unemployment">github.com/bolgacg/founding-after-unemployment</a>.</p>
+  <p>Built with help from Claude; every number is fetched from Statistics Denmark and the ILO by the scripts in this repository on {{fetched}}.</p>
+</footer>
+</div>
+
+<script>window.DATA = /*DATA*/null;</script>
+<script>
+(function () {
+  "use strict";
+  var D = window.DATA, NS = "http://www.w3.org/2000/svg";
+  var C = { ink: "#1a1d21", soft: "#5b6470", faint: "#7d8793", rule: "#e2e0dc", accent: "#2c4a6b", accent2: "#4f7cac", grey: "#9aa1aa", neg: "#b03a3a" };
+  function safe(name, fn) { try { fn(); } catch (e) { if (window.console) console.error(name, e); } }
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function txt(parent, x, y, s, attrs) {
+    var a = { x: x, y: y, "font-size": 12, fill: C.soft };
+    for (var k in attrs || {}) a[k] = attrs[k];
+    var t = el("text", a, parent); t.textContent = s; return t;
+  }
+  function fmt(x, d) { var s = Math.abs(x).toFixed(d); s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ","); return (x < 0 && Number(s.replace(/,/g, "")) !== 0 ? "−" : "") + s; }
+  function whole(n) { return fmt(n, 0); }
+  function width(id) { return Math.max(300, document.getElementById(id).clientWidth); }
+  function svgFor(id, w, h) {
+    var host = document.getElementById(id); host.innerHTML = "";
+    return el("svg", { viewBox: "0 0 " + w + " " + h, width: w, height: h, role: "img" }, host);
+  }
+  function scale(d0, d1, r0, r1) { return function (v) { return r0 + (v - d0) / (d1 - d0) * (r1 - r0); }; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  function month(code) { var p = code.split("M"); return MONTHS[+p[1] - 1] + " " + p[0]; }
+
+  // ---------------------------------------------------------------- BLUF: the estimate ladder
+  var MC = document.createElement("canvas").getContext("2d");
+  function tw(s, size, weight) { MC.font = (weight || 400) + " " + size + "px 'IBM Plex Sans', system-ui, sans-serif"; return MC.measureText(s).width; }
+  function wrap(s, maxW, size, weight) {
+    var words = s.split(" "), lines = [], cur = "";
+    words.forEach(function (wd) { var t = cur ? cur + " " + wd : wd; if (cur && tw(t, size, weight) > maxW) { lines.push(cur); cur = wd; } else cur = t; });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+  function drawBluf() {
+    var rows = D.p1.ladder, w = width("bluf-chart"), narrow = w < 620;
+    var G = narrow ? 50 : 180, L = 8, R = w - 8 - G, fs = narrow ? 12 : 13, lh = fs + 4, top = 30;
+    var x = scale(-5, 1.5, L, R);
+    var lay = rows.map(function (r) {
+      var mine = r.key === "twoway";
+      return { r: r, mine: mine, lines: wrap(r.label + (mine ? " (my estimate)" : ""), narrow ? w - 16 : R - L, fs, mine ? 600 : 400) };
+    });
+    var y = top, pos = [];
+    lay.forEach(function (o) { pos.push(y); y += o.lines.length * lh + 26; });
+    var plotBottom = y, axisLines = narrow ? ["change in new firms per 1,000 in the labour force,", "per point of long term unemployment"] : ["change in new firms per 1,000 in the labour force, per point of long term unemployment"];
+    var h = plotBottom + 30 + axisLines.length * 16;
+    var svg = svgFor("bluf-chart", w, h);
+    [-5, -4, -3, -2, -1, 0, 1].forEach(function (v) {
+      el("line", { x1: x(v), x2: x(v), y1: top - 8, y2: plotBottom, stroke: v === 0 ? C.ink : C.rule, "stroke-width": v === 0 ? 1.3 : 1, "stroke-dasharray": v === 0 ? "4 4" : "" }, svg);
+      txt(svg, x(v), plotBottom + 16, fmt(v, 0), { "text-anchor": "middle", "font-family": "IBM Plex Mono", "font-size": 11.5 });
+    });
+    txt(svg, x(0) + 6, top - 14, "no link", { "font-size": 12, fill: C.ink, "font-weight": 600, "class": "h" });
+    if (!narrow) txt(svg, R + 18, top - 14, "estimate (95% interval)", { "font-size": 11.5, fill: C.faint });
+    axisLines.forEach(function (a, k) { txt(svg, (L + R) / 2 + (narrow ? G / 2 : 0), plotBottom + 36 + k * 16, a, { "text-anchor": "middle", "font-size": narrow ? 11.5 : 12.5, fill: C.ink }); });
+    lay.forEach(function (o, i) {
+      var r = o.r, y0 = pos[i], yb = y0 + o.lines.length * lh + 8, col = o.mine ? C.accent : C.grey;
+      o.lines.forEach(function (ln, k) { txt(svg, L, y0 + fs + k * lh, ln, { "font-size": fs, fill: o.mine ? C.accent : C.soft, "font-weight": o.mine ? 600 : 400, "class": "h" }); });
+      el("line", { x1: x(r.lo), x2: x(r.hi), y1: yb, y2: yb, stroke: col, "stroke-width": o.mine ? 4 : 3, "stroke-linecap": "round" }, svg);
+      el("circle", { cx: x(r.b), cy: yb, r: o.mine ? 6.5 : 5.5, fill: col, stroke: "#fff", "stroke-width": 1.5 }, svg);
+      var t = txt(svg, R + 18, yb + 4, fmt(r.b, 2), { "font-family": "IBM Plex Mono", "font-size": 12.5, fill: o.mine ? C.accent : C.ink, "font-weight": o.mine ? 600 : 500 });
+      if (!narrow) { var ts = el("tspan", { fill: C.faint, "font-weight": 400, "font-size": 11.5 }, t); ts.textContent = "  (" + fmt(r.lo, 2) + " to " + fmt(r.hi, 2) + ")"; }
+    });
+  }
+
+  // ---------------------------------------------------------------- Act 1: municipal scatter
+  var p1 = { view: "raw", m: "101" };
+  function drawP1() {
+    var w = width("p1-chart"), narrow = w < 560, h = narrow ? 360 : 430;
+    var M = { l: 46, r: 14, t: 16, b: 48 };
+    var svg = svgFor("p1-chart", w, h);
+    var x = scale(0, 3.1, M.l, w - M.r), y = scale(4, 38, h - M.b, M.t);
+    [0, 0.5, 1, 1.5, 2, 2.5, 3].forEach(function (v) {
+      el("line", { x1: x(v), x2: x(v), y1: M.t, y2: h - M.b, stroke: C.rule }, svg);
+      txt(svg, x(v), h - M.b + 16, fmt(v, 1), { "text-anchor": "middle", "font-family": "IBM Plex Mono", "font-size": 11 });
+    });
+    [5, 10, 15, 20, 25, 30, 35].forEach(function (v) {
+      el("line", { x1: M.l, x2: w - M.r, y1: y(v), y2: y(v), stroke: C.rule }, svg);
+      txt(svg, M.l - 6, y(v) + 4, String(v), { "text-anchor": "end", "font-family": "IBM Plex Mono", "font-size": 11 });
+    });
+    txt(svg, (M.l + w - M.r) / 2, h - 10, narrow ? "long term unemployed, % of labour force" : "long term unemployed, percent of the labour force (yearly mean)", { "text-anchor": "middle", fill: C.ink, "font-size": narrow ? 11.5 : 12.5 });
+    var yt = txt(svg, 0, 0, "new firms per 1,000 in the labour force", { "text-anchor": "middle", fill: C.ink, "font-size": narrow ? 11 : 12.5 });
+    yt.setAttribute("transform", "translate(13," + ((M.t + h - M.b) / 2) + ") rotate(-90)");
+    var within = p1.view === "within";
+    var g = el("g", {}, svg), dots = [];
+    D.p1.points.forEach(function (p) {
+      var px = within ? p.xw : p.x, py = within ? p.yw : p.y;
+      var c = el("circle", { cx: x(px), cy: y(Math.min(py, 38)), r: 2.6, fill: C.accent2, "fill-opacity": 0.28 }, g);
+      c.style.transition = "cx .6s ease, cy .6s ease";
+      dots.push(c);
+    });
+    var b = within ? D.p1.fe_b : D.p1.pooled_b, mx = D.p1.mean_x, my = D.p1.mean_y;
+    var x0 = 0.05, x1 = 3.05;
+    el("line", { x1: x(x0), x2: x(x1), y1: y(my + b * (x0 - mx)), y2: y(my + b * (x1 - mx)), stroke: C.ink, "stroke-width": 2 }, svg);
+    var lbl = (within ? "slope within municipalities " : "pooled slope ") + fmt(b, 2);
+    txt(svg, x(2.0), y(my + b * (2.0 - mx)) - 10, lbl, { fill: C.ink, "font-weight": 600, "font-size": 12.5, "text-anchor": "middle", "class": "h" });
+    // selected municipality path
+    var pts = D.p1.points.filter(function (p) { return p.m === p1.m; }).sort(function (a, b) { return a.t - b.t; });
+    var d = pts.map(function (p, i) { var px = within ? p.xw : p.x, py = within ? p.yw : p.y; return (i ? "L" : "M") + x(px).toFixed(1) + " " + y(Math.min(py, 38)).toFixed(1); }).join(" ");
+    el("path", { d: d, fill: "none", stroke: C.neg, "stroke-width": 1.6, "stroke-opacity": 0.9 }, svg);
+    pts.forEach(function (p, i) {
+      var px = within ? p.xw : p.x, py = within ? p.yw : p.y;
+      el("circle", { cx: x(px), cy: y(Math.min(py, 38)), r: 3.6, fill: C.neg, stroke: "#fff", "stroke-width": 1 }, svg);
+      if (i === 0 || i === pts.length - 1) txt(svg, x(px) + (i ? 6 : -6), y(Math.min(py, 38)) + (i ? -7 : 15), String(p.t), { fill: C.neg, "font-family": "IBM Plex Mono", "font-size": 11, "font-weight": 600, "text-anchor": i ? "start" : "end", "class": "h" });
+    });
+    var mean = function (k) { return pts.reduce(function (s, p) { return s + p[k]; }, 0) / pts.length; };
+    document.getElementById("p1read").innerHTML = "<b>" + esc(D.p1.names[p1.m]) + "</b>, " + D.p1.first + " to " + D.p1.last + ": long term unemployment averaged " + fmt(mean("x"), 2) + " percent of the labour force and new firms " + fmt(mean("y"), 1) + " per 1,000 (red path).";
+  }
+  function initP1() {
+    var sel = document.getElementById("p1muni");
+    Object.keys(D.p1.names).sort(function (a, b) { return D.p1.names[a].localeCompare(D.p1.names[b]); }).forEach(function (k) {
+      var o = document.createElement("option"); o.value = k; o.textContent = D.p1.names[k]; if (k === p1.m) o.selected = true; sel.appendChild(o);
+    });
+    sel.addEventListener("change", function () { p1.m = sel.value; drawP1(); });
+    document.querySelectorAll("#p1view .chip").forEach(function (b) {
+      b.addEventListener("click", function () {
+        p1.view = b.getAttribute("data-v");
+        document.querySelectorAll("#p1view .chip").forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+        drawP1();
+      });
+    });
+    drawP1();
+  }
+
+  // ---------------------------------------------------------------- Act 2a: flows by age
+  var p2 = { year: "pooled" };
+  function drawP2() {
+    var w = width("p2-chart"), narrow = w < 560, ages = D.p2.ages;
+    var rowH = 27, M = { l: narrow ? 64 : 84, r: 54, t: 12, b: 44 }, h = M.t + ages.length * rowH + M.b;
+    var svg = svgFor("p2-chart", w, h), x = scale(0, 2.25, M.l, w - M.r);
+    [0, 0.5, 1, 1.5, 2].forEach(function (v) {
+      el("line", { x1: x(v), x2: x(v), y1: M.t, y2: h - M.b + 4, stroke: C.rule }, svg);
+      txt(svg, x(v), h - M.b + 19, fmt(v, 1), { "text-anchor": "middle", "font-family": "IBM Plex Mono", "font-size": 11 });
+    });
+    txt(svg, (M.l + w - M.r) / 2, h - 8, "percent who are self employed one quarter later", { "text-anchor": "middle", fill: C.ink, "font-size": narrow ? 11 : 12.5 });
+    var U = D.p2.series["unemployed_" + p2.year], E = D.p2.series["employee_" + p2.year];
+    ages.forEach(function (a, i) {
+      var yy = M.t + i * rowH + rowH / 2;
+      txt(svg, M.l - 10, yy + 4, a, { "text-anchor": "end", "font-size": 12, fill: C.ink });
+      el("line", { x1: x(E[i].rate), x2: x(U[i].rate), y1: yy, y2: yy, stroke: "#c9ced4", "stroke-width": 3 }, svg);
+      el("circle", { cx: x(E[i].rate), cy: yy, r: 5, fill: "#fff", stroke: C.grey, "stroke-width": 1.6 }, svg);
+      var c = el("circle", { cx: x(U[i].rate), cy: yy, r: 6, fill: C.accent }, svg);
+      var tt = el("title", {}, c); tt.textContent = a + ": " + whole(U[i].n) + " of " + whole(U[i].base) + " unemployed person quarters";
+      txt(svg, x(U[i].rate) + 10, yy + 4, fmt(U[i].rate, 2), { "font-family": "IBM Plex Mono", "font-size": 11.5, fill: C.accent, "font-weight": 600 });
+    });
+  }
+  function initP2() {
+    var host = document.getElementById("p2year");
+    var opts = [["pooled", D.p2.years[0] + " to " + D.p2.years[D.p2.years.length - 1]]].concat(["2020"].concat(D.p2.years).map(function (y) { return [y, y]; }));
+    opts.forEach(function (o) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = o[1];
+      b.setAttribute("aria-pressed", o[0] === p2.year ? "true" : "false");
+      b.addEventListener("click", function () { p2.year = o[0]; host.querySelectorAll(".chip").forEach(function (c) { c.setAttribute("aria-pressed", c === b ? "true" : "false"); }); drawP2(); });
+      host.appendChild(b);
+    });
+    drawP2();
+  }
+
+  // ---------------------------------------------------------------- Act 2b: spells by duration
+  var p2b = { i: null };
+  var SPELL_LINES = [["26", "26 weeks or more", "#8fa9c6"], ["52", "52 weeks or more", C.accent], ["104", "104 weeks or more", C.neg]];
+  function drawP2b() {
+    var S = D.p2.spells, n = S.months.length, w = width("p2b-chart"), narrow = w < 560, h = narrow ? 260 : 300;
+    var M = { l: 54, r: narrow ? 14 : 126, t: 28, b: 36 }, svg = svgFor("p2b-chart", w, h);
+    var x = scale(0, n - 1, M.l, w - M.r), y = scale(0, 80000, h - M.b, M.t);
+    [0, 20000, 40000, 60000, 80000].forEach(function (v) {
+      el("line", { x1: M.l, x2: w - M.r, y1: y(v), y2: y(v), stroke: C.rule }, svg);
+      txt(svg, M.l - 6, y(v) + 4, whole(v), { "text-anchor": "end", "font-family": "IBM Plex Mono", "font-size": 11 });
+    });
+    S.months.forEach(function (m, i) {
+      if (m.slice(5) === "01" && (+m.slice(0, 4)) % (narrow ? 4 : 2) === 0) {
+        el("line", { x1: x(i), x2: x(i), y1: h - M.b, y2: h - M.b + 4, stroke: C.soft }, svg);
+        txt(svg, x(i), h - M.b + 17, m.slice(0, 4), { "text-anchor": "middle", "font-family": "IBM Plex Mono", "font-size": 11 });
+      }
+    });
+    txt(svg, M.l - 6, M.t - 14, "people", { "font-size": 11.5, "text-anchor": "end" });
+    SPELL_LINES.forEach(function (L) {
+      var vals = S.count[L[0]], d = "", started = false;
+      vals.forEach(function (v, i) { if (v == null) return; d += (started ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1) + " "; started = true; });
+      el("path", { d: d, fill: "none", stroke: L[2], "stroke-width": 2 }, svg);
+      if (!narrow) txt(svg, w - M.r + 6, y(vals[n - 1]) + 4, L[1], { fill: L[2], "font-size": 12, "font-weight": 600 });
+    });
+    document.getElementById("p2b-legend").innerHTML = narrow ? SPELL_LINES.map(function (L) { return '<span><span class="sw" style="background:' + L[2] + '"></span>' + L[1] + "</span>"; }).join("") : "";
+    var i = p2b.i;
+    el("line", { x1: x(i), x2: x(i), y1: M.t, y2: h - M.b, stroke: C.ink, "stroke-dasharray": "3 3" }, svg);
+    SPELL_LINES.forEach(function (L) { var v = S.count[L[0]][i]; if (v != null) el("circle", { cx: x(i), cy: y(v), r: 4, fill: L[2], stroke: "#fff", "stroke-width": 1.2 }, svg); });
+    var rows = S.durations.map(function (dd) {
+      var v = S.count[String(dd)][i], p = S.pct[String(dd)][i];
+      return "<tr><td>" + dd + " weeks</td><td class=\"n\">" + (v == null ? "not counted yet" : whole(v)) + "</td><td class=\"n\">" + (p == null ? "not counted yet" : fmt(p, 1)) + "</td></tr>";
+    });
+    document.getElementById("p2bread").innerHTML = "<b>" + month(S.months[i]) + "</b>" +
+      '<table class="t spells"><thead><tr><th>Spell of at least</th><th class="n">People</th><th class="n">Percent of gross unemployed</th></tr></thead><tbody>' + rows.join("") + "</tbody></table>";
+  }
+  function initP2b() {
+    var S = D.p2.spells, sl = document.getElementById("p2bslider");
+    sl.min = 0; sl.max = S.months.length - 1; sl.value = S.months.length - 1; p2b.i = S.months.length - 1;
+    sl.addEventListener("input", function () { p2b.i = +sl.value; drawP2b(); });
+    drawP2b();
+  }
+
+  // ---------------------------------------------------------------- Act 3a: composition
+  var GCOL = ["#e4e2dd", "#c9d3df", "#a9bcd2", "#7e9cbd", "#4f7cac", "#2c4a6b"];
+  var GNAME = ["Not exposed", "Minimal exposure", "Gradient 1", "Gradient 2", "Gradient 3", "Gradient 4"];
+  function drawP3a() {
+    var w = width("p3a-chart"), narrow = w < 560, years = Object.keys(D.p3.comp).sort();
+    var M = { l: 44, r: 56, t: 8, b: 8 }, barH = 30, gap = 14, h = M.t + years.length * (barH + gap) + M.b;
+    var svg = svgFor("p3a-chart", w, h), x = scale(0, 100, M.l, w - M.r);
+    years.forEach(function (yv, i) {
+      var yy = M.t + i * (barH + gap), acc = 0;
+      txt(svg, M.l - 8, yy + barH / 2 + 4, yv, { "text-anchor": "end", "font-family": "IBM Plex Mono", "font-size": 12, fill: C.ink });
+      D.p3.grads.forEach(function (gname, k) {
+        var v = D.p3.comp[yv][gname];
+        el("rect", { x: x(acc), y: yy, width: Math.max(0, x(acc + v) - x(acc)), height: barH, fill: GCOL[k], stroke: "#fff", "stroke-width": 1 }, svg);
+        if (x(acc + v) - x(acc) > (narrow ? 30 : 36)) txt(svg, (x(acc) + x(acc + v)) / 2, yy + barH / 2 + 4, fmt(v, 1), { "text-anchor": "middle", "font-family": "IBM Plex Mono", "font-size": 11, fill: k >= 4 ? "#fff" : C.ink });
+        acc += v;
+      });
+      txt(svg, x(100) + 6, yy + barH / 2 + 4, fmt(D.p3.high[yv], 1) + "%", { "font-family": "IBM Plex Mono", "font-size": 12, fill: C.accent, "font-weight": 600 });
+    });
+    var lg = document.getElementById("p3a-legend");
+    lg.innerHTML = GNAME.map(function (n, k) { return '<span><span class="sw" style="background:' + GCOL[k] + '"></span>' + n + "</span>"; }).join("") + '<span><b class="n" style="color:var(--accent)">%</b> at the right end: gradients 3 and 4 together</span>';
+  }
+
+  // ---------------------------------------------------------------- Act 3b: exposure against change
+  var p3 = { per: "a", sel: null };
+  function drawP3() {
+    var w = width("p3-chart"), narrow = w < 560, h = narrow ? 360 : 420;
+    var M = { l: 62, r: 14, t: 18, b: 46 }, svg = svgFor("p3-chart", w, h);
+    var x = scale(0, 0.8, M.l, w - M.r), y = scale(-80, 100, h - M.b, M.t);
+    [0, 0.2, 0.4, 0.6, 0.8].forEach(function (v) {
+      el("line", { x1: x(v), x2: x(v), y1: M.t, y2: h - M.b, stroke: C.rule }, svg);
+      txt(svg, x(v), h - M.b + 16, fmt(v, 1), { "text-anchor": "middle", "font-family": "IBM Plex Mono", "font-size": 11 });
+    });
+    [-80, -40, 0, 40, 80].forEach(function (v) {
+      el("line", { x1: M.l, x2: w - M.r, y1: y(v), y2: y(v), stroke: v === 0 ? C.ink : C.rule, "stroke-dasharray": v === 0 ? "4 4" : "" }, svg);
+      txt(svg, M.l - 6, y(v) + 4, (v > 0 ? "+" : "") + fmt(v, 0) + "%", { "text-anchor": "end", "font-family": "IBM Plex Mono", "font-size": 11 });
+    });
+    if (!narrow) txt(svg, w - M.r - 4, y(0) - 6, "no change in share", { "text-anchor": "end", "font-size": 11.5, fill: C.ink, "class": "h" });
+    txt(svg, (M.l + w - M.r) / 2, h - 10, "ILO generative AI exposure score (0 to 1)", { "text-anchor": "middle", fill: C.ink, "font-size": narrow ? 11 : 12.5 });
+    var yt = txt(svg, 0, 0, "change in share of employees", { "text-anchor": "middle", fill: C.ink, "font-size": narrow ? 11 : 12.5 });
+    yt.setAttribute("transform", "translate(12," + ((M.t + h - M.b) / 2) + ") rotate(-90)");
+    var key = p3.per, ek = key === "a" ? "e22" : "e19";
+    var pts = D.p3.points.filter(function (p) { return p[key] != null; }).sort(function (a, b) { return b[ek] - a[ek]; });
+    var tip = document.getElementById("p3tip"), box = document.getElementById("p3-chart");
+    pts.forEach(function (p) {
+      var hi = p.g >= 4, rr = Math.max(2.2, Math.min(15, Math.sqrt(p[ek]) / 14));
+      var c = el("circle", { cx: x(p.s), cy: y(Math.max(-80, Math.min(100, p[key]))), r: rr, fill: hi ? C.accent : C.grey, "fill-opacity": hi ? 0.55 : 0.35, stroke: hi ? C.accent : C.grey, "stroke-width": 0.8, style: "cursor:pointer" }, svg);
+      c.addEventListener("mousemove", function (ev) {
+        var rb = box.getBoundingClientRect();
+        tip.style.display = "block"; tip.innerHTML = "<b>" + esc(p.n) + "</b><br>exposure " + fmt(p.s, 2) + ", change " + fmt(p[key], 1) + "%";
+        tip.style.left = Math.min(rb.width - 250, ev.clientX - rb.left + 12) + "px"; tip.style.top = (ev.clientY - rb.top + 12) + "px";
+      });
+      c.addEventListener("mouseleave", function () { tip.style.display = "none"; });
+      c.addEventListener("click", function () { p3.sel = p.c; document.getElementById("p3find").value = p.n; drawP3(); });
+    });
+    var st = key === "a" ? D.p3.after : D.p3.before;
+    txt(svg, M.l + 8, M.t + 14, "correlation " + fmt(st.r, 2) + ", " + st.n + " occupations", { "font-size": 12.5, fill: C.ink, "font-weight": 600, "class": "h" });
+    var s = D.p3.points.filter(function (p) { return p.c === p3.sel; })[0];
+    var rd = document.getElementById("p3read");
+    if (s && s[key] != null) {
+      var cy = y(Math.max(-80, Math.min(100, s[key])));
+      el("circle", { cx: x(s.s), cy: cy, r: Math.max(6, Math.min(16, Math.sqrt(s[ek]) / 14 + 3)), fill: "none", stroke: C.neg, "stroke-width": 2.2 }, svg);
+      var y0 = key === "a" ? "2022" : "2019", y1 = key === "a" ? D.p3.last : "2022", e1 = key === "a" ? s.e25 : s.e22;
+      rd.innerHTML = "<b>" + esc(s.n) + "</b> (DISCO " + s.c + "): exposure " + fmt(s.s, 2) + ", " + GNAME[s.g].toLowerCase() + "; " + whole(s[ek]) + " full time employees in " + y0 + " and " + whole(e1) + " in " + y1 + ", a change of " + fmt(s[key], 1) + " percent in its share of employees.";
+    } else if (s) {
+      rd.innerHTML = "<b>" + esc(s.n) + "</b> had fewer than 500 full time employees at the start of this period, so it is not drawn.";
+    } else { rd.textContent = ""; }
+  }
+  function initP3() {
+    var dl = document.getElementById("p3list"), byName = {};
+    D.p3.points.slice().sort(function (a, b) { return a.n.localeCompare(b.n); }).forEach(function (p) {
+      var o = document.createElement("option"); o.value = p.n; dl.appendChild(o); byName[p.n.toLowerCase()] = p.c;
+    });
+    p3.sel = D.p3.top;
+    var inp = document.getElementById("p3find");
+    inp.value = D.p3.points.filter(function (p) { return p.c === p3.sel; })[0].n;
+    inp.addEventListener("input", function () { var c = byName[inp.value.trim().toLowerCase()]; if (c) { p3.sel = c; drawP3(); } });
+    document.querySelectorAll("#p3period .chip").forEach(function (b) {
+      b.addEventListener("click", function () {
+        p3.per = b.getAttribute("data-p");
+        document.querySelectorAll("#p3period .chip").forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+        drawP3();
+      });
+    });
+    drawP3();
+  }
+
+  safe("bluf", drawBluf); safe("p1", initP1); safe("p2", initP2); safe("p2b", initP2b); safe("p3a", drawP3a); safe("p3", initP3);
+  var rt;
+  window.addEventListener("resize", function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { safe("bluf", drawBluf); safe("p1", drawP1); safe("p2", drawP2); safe("p2b", drawP2b); safe("p3a", drawP3a); safe("p3", drawP3); if (tour.on) tour.place(); }, 120);
+  });
+
+  // ---------------------------------------------------------------- walkthrough (spotlight)
+  var STEPS = [
+    { sel: "#headline", title: "Five questions, five answers", text: "These are the questions the page answers, each with its number. Every number is computed from the downloaded tables, not typed." },
+    { sel: "#blufbox", title: "The answer in one chart", text: "Five estimates of the same link from the same data. Comparing places gives a negative link; following each municipality over time gives none. The dashed line is no link at all." },
+    { sel: "#p1wrap", small: "#p1box", title: "Switch the view", text: "Click Follow each place over time: the dots move to where only within municipality changes remain, and the slope flattens. Pick a municipality to see its path from 2009 to 2021." },
+    { sel: "#p2wrap", small: "#p2box", title: "People, not places", text: "Each row is an age group. The dark dot is the share of the unemployed who are self employed a quarter later; the open dot is the share of employees. Click a year to redraw." },
+    { sel: "#p3wrap", small: "#p3box", title: "Before and after ChatGPT", text: "Each circle is an occupation. Switch the period to compare the years before and after ChatGPT, and type an occupation to read its numbers." },
+    { sel: "#question", small: "#question h3", title: "What the registry would add", text: "This is the question I would test with the project's registry data, which no public table can answer: whether the AI exposure of a person's last job changes where they found." }
+  ];
+  var tour = { on: false, i: 0, hole: null, card: null };
+  function hel(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+  tour.place = function () {
+    var st = STEPS[tour.i], t = document.querySelector(st.small && window.innerWidth < 700 ? st.small : st.sel);
+    if (!t) return;
+    var r = t.getBoundingClientRect(), pad = 8;
+    var top = r.top + window.scrollY, left = r.left + window.scrollX;
+    tour.hole.style.top = (top - pad) + "px"; tour.hole.style.left = (left - pad) + "px";
+    tour.hole.style.width = (r.width + 2 * pad) + "px"; tour.hole.style.height = (r.height + 2 * pad) + "px";
+    tour.card.innerHTML = '<button class="x" type="button" aria-label="Close">&times;</button><h4>' + esc(st.title) + "</h4><p>" + esc(st.text) + "</p>" +
+      '<div class="row"><div class="dots">' + STEPS.map(function (_, j) { return '<i class="' + (j === tour.i ? "on" : "") + '"></i>'; }).join("") + "</div><div>" +
+      (tour.i > 0 ? '<button type="button" data-a="back">Back</button> ' : "") +
+      '<button type="button" class="primary" data-a="next">' + (tour.i === STEPS.length - 1 ? "Done" : "Next") + "</button></div></div>";
+    var vh = window.innerHeight, docW = document.documentElement.clientWidth, cw = tour.card.offsetWidth, ch = tour.card.offsetHeight;
+    var target = Math.max(0, top - 70);
+    var cardTop = top + r.height + pad + 12;
+    if (cardTop + ch > target + vh - 10) {
+      var need = cardTop + ch + 10 - vh;
+      if (need <= top - 20) target = need; else cardTop = target + vh - ch - 12;
+    }
+    var cl = Math.min(Math.max(16, left), docW - cw - 16);
+    tour.card.style.top = cardTop + "px"; tour.card.style.left = cl + "px";
+    window.scrollTo({ top: target, behavior: "smooth" });
+    tour.card.querySelector(".x").onclick = tour.close;
+    var nx = tour.card.querySelector('[data-a="next"]'), bk = tour.card.querySelector('[data-a="back"]');
+    nx.onclick = function () { if (tour.i < STEPS.length - 1) { tour.i++; tour.place(); } else tour.close(); };
+    if (bk) bk.onclick = function () { tour.i--; tour.place(); };
+  };
+  tour.open = function () {
+    if (!tour.hole) {
+      tour.hole = hel("div", "tour-hole"); tour.hole.setAttribute("aria-hidden", "true");
+      tour.card = hel("div", "tour-card"); tour.card.setAttribute("role", "dialog"); tour.card.setAttribute("aria-label", "Walkthrough");
+      document.body.appendChild(tour.hole); document.body.appendChild(tour.card);
+    }
+    tour.hole.style.display = tour.card.style.display = "block";
+    tour.on = true; tour.i = 0; tour.place();
+  };
+  tour.close = function () {
+    tour.on = false;
+    if (tour.hole) { tour.hole.style.display = tour.card.style.display = "none"; }
+    try { localStorage.setItem("founding.tour.v1", "done"); } catch (e) {}
+  };
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && tour.on) tour.close(); });
+  document.getElementById("tourbtn").addEventListener("click", tour.open);
+  window.__tour = tour;
+  safe("tour", function () {
+    var seen = null;
+    try { seen = localStorage.getItem("founding.tour.v1"); } catch (e) {}
+    if (!seen && !/[?&]notour/.test(location.search)) setTimeout(tour.open, 600);
+  });
+})();
+</script>
+</body>
+</html>

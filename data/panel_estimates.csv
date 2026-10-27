@@ -1,0 +1,13 @@
+key,label,b,lo,hi,p,n,years
+between,Comparing municipalities with each other (each one's 13 year average),-2.46126,-4.44007,-0.482458,0.0147758,98,
+pooled,"All 1,274 municipality years in one pool",-0.844156,-1.55932,-0.128993,0.0206963,1274,
+time_only,"Pool, net of each year's national swing (year effects only)",-1.72486,-3.0401,-0.409616,0.0102003,1274,
+entity_only,Same municipality over time (municipality effects only),0.0734938,-0.190067,0.337055,0.584415,1274,
+twoway,"Same municipality over time, net of each year's national swing",0.044162,-0.573465,0.661789,0.888456,1274,
+main,"Main estimate: long term unemployment, same year",0.044162,-0.573465,0.661789,0.888456,1274,2009 to 2021
+lag,Long term unemployment of the year before,0.423075,-0.121954,0.968105,0.128021,1176,2010 to 2021
+unr,All gross unemployment instead of long term (AUS08),0.0175572,-0.209523,0.244637,0.879453,1274,2009 to 2021
+unr_lag,All gross unemployment of the year before,0.0130917,-0.209968,0.236151,0.908344,1274,2009 to 2021
+emp,"New firms per 1,000 salaried employees working in the municipality (RAS305)",-0.00379096,-0.579754,0.572172,0.989699,1274,2009 to 2021
+weighted,Municipalities weighted by their labour force,0.0396962,-0.398443,0.477835,0.858941,1274,2009 to 2021
+nocovid,Leaving out 2020 and 2021,-0.00852334,-0.615783,0.598736,0.978032,1078,2009 to 2019
