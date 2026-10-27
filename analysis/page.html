@@ -30,7 +30,7 @@ a:hover{color:var(--ink)}
 .topnav button{font:inherit;letter-spacing:inherit;background:none;border:1px solid var(--accent);color:var(--accent);border-radius:3px;padding:3px 10px;cursor:pointer}
 .topnav button:hover{background:var(--accent);color:#fff}
 .eyebrow{font:500 11px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
-h1{font:600 38px/1.12 var(--serif);letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance;max-width:26ch}
+h1{font:600 38px/1.12 var(--serif);letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance;max-width:34ch}
 .standfirst{font:400 19px/1.5 var(--serif);color:#3d444d;margin:0 0 14px;max-width:68ch}
 h2{font:600 25px/1.25 var(--serif);margin:52px 0 8px;text-wrap:balance;max-width:40ch}
 h2 .no{font-family:var(--mono);font-weight:500;font-size:15px;color:var(--faint);margin-right:8px;vertical-align:3px}
@@ -42,7 +42,7 @@ p{margin:0 0 13px}
 .byline{font-size:13.5px;color:var(--soft);margin:0 0 18px}
 
 /* headline questions */
-.qa{border-top:1px solid var(--rule);margin:8px 0 6px;max-width:860px}
+.qa{border-top:1px solid var(--rule);margin:22px 0 6px;max-width:860px}
 .qa div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:4px 24px;padding:9px 0;border-bottom:1px solid var(--rule);font-size:15px;line-height:1.45}
 .qa b{font-weight:600}
 .qa span{color:#30363d}
@@ -182,16 +182,8 @@ footer p{margin:0 0 8px}
 
 <div class="eyebrow">Work sample &middot; PhD Position in Entrepreneurship, AI, and Labor Market Disruption, DTU Entrepreneurship &middot; Bolga&ccedil; G&uuml;len</div>
 <h1>When unemployment rises in Denmark, do more people start firms?</h1>
-<p class="standfirst">In the public aggregates, no: when a Danish municipality's long term unemployment rose between {{first}} and {{last}}, its number of new firms did not move, yet person by person the unemployed became self employed at {{ratio}} times the rate of employees. No public table can join those two facts, because none says who the founders were, which job they left, how long they had been out of work, or how exposed that job was to generative AI. That join is what the project's registry data makes possible, and this page shows where each public table stops.</p>
+<p class="standfirst">In the public aggregates, no: when a Danish municipality's long term unemployment rose between {{first}} and {{last}}, its rate of new firms showed no detectable change, yet person by person the unemployed became self employed at {{ratio}} times the rate of employees. No public table can join those two facts, because none says who the founders were, which job they left, how long they had been out of work, or how exposed that job was to generative AI. That join is what the project's registry data makes possible, and this page shows where each public table stops.</p>
 <p class="byline">Every number below is computed from Statistics Denmark and ILO data fetched on {{fetched}} by the scripts in <a href="https://github.com/bolgacg/founding-after-unemployment">this repository</a>.</p>
-
-<div class="qa" id="headline">
-  <div><b>Do municipalities with more long term unemployment have more new firms?</b><span>No, fewer: {{between_abs1}} fewer new firms per 1,000 people in the labour force for each extra percentage point.</span></div>
-  <div><b>When one municipality's long term unemployment rises, do its new firms rise?</b><span>No detectable change: {{fe_b}} per point, with a 95 percent interval from {{fe_lo}} to {{fe_hi}}.</span></div>
-  <div><b>Do unemployed people become self employed?</b><span>Yes: {{rate_unemp}} percent of them each quarter in {{flow_years}}, {{ratio}} times the rate of employees.</span></div>
-  <div><b>Have the occupations most exposed to generative AI shrunk in Denmark?</b><span>Not yet: their share of full time employees was {{high_first}} percent in {{exp_first}} and {{high_last}} percent in {{exp_last}}.</span></div>
-  <div><b>What can no public table show?</b><span>The job, industry and unemployment spell each founder came from, which the project's registry data holds.</span></div>
-</div>
 
 <figure id="bluf">
   <p class="figtitle">The same {{n_obs}} municipality years give a negative link or none, depending on what is compared with what</p>
@@ -199,16 +191,26 @@ footer p{margin:0 0 8px}
   <div class="caption">
     <p><b>What you see:</b> five estimates of one number from the same data: how many more new firms per 1,000 people in the labour force go with one percentage point more long term unemployment, {{n_munis}} municipalities, {{first}} to {{last}}. Each bar is a 95 percent confidence interval.</p>
     <p><b>How to read it:</b> a dot left of the dashed zero line means more long term unemployment goes with fewer new firms; a bar that crosses zero means the data cannot tell the sign.</p>
-    <p><b>What to take from it:</b> the negative link comes from comparing different places; once each municipality is compared with itself over time, net of each year's national swing, the estimate is {{fe_b}}. A pattern across places says little about what unemployed people do.</p>
+    <p><b>What to take from it:</b> the negative link comes from comparing different places, and municipality effects alone remove it ({{entity_b}}). Adding year effects absorbs the national rise in long term unemployment from {{ltu_nat_2009}} to {{ltu_nat_2011}} percent between 2009 and 2011, which is why the main interval is wider. A pattern across places says little about what unemployed people do.</p>
   </div>
 </figure>
+
+<div class="qa" id="headline">
+  <div><b>Do municipalities with more long term unemployment have more new firms?</b><span>No, fewer: comparing municipalities' {{n_years}} year averages, {{between_abs1}} fewer new firms per 1,000 people in the labour force for each extra percentage point.</span></div>
+  <div><b>When one municipality's long term unemployment rises, do its new firms rise?</b><span>No detectable change: {{fe_b}} per point, with a 95 percent interval from {{fe_lo}} to {{fe_hi}}.</span></div>
+  <div><b>Do unemployed people become self employed?</b><span>Yes: {{rate_unemp}} percent of them each quarter in {{flow_years}}, {{ratio}} times the rate of employees.</span></div>
+  <div><b>Have the occupations most exposed to generative AI shrunk in Denmark?</b><span>Not yet: in LONS20 their share of full time employees was {{high_2022}} percent in 2022 and {{high_last}} percent in {{exp_last}}.</span></div>
+  <div><b>What can no public table show?</b><span>The job, industry and unemployment spell each founder came from, which the project's registry data holds.</span></div>
+</div>
+
+
 
 <h2 id="primer">Five things to know before the charts</h2>
 <p class="why">The page uses a few terms from Danish labour statistics and from panel econometrics. These five statements and the glossary are enough to read every chart.</p>
 <div class="two">
   <ol class="primer">
     <li>Statistics Denmark publishes counts for groups of people (a municipality, an age band, an occupation) in a free database called StatBank, never for named persons. Every table on this page comes from StatBank and is named by its id, such as DEMO9.</li>
-    <li>A person is long term unemployed when they have been gross unemployed for at least 52 weeks in a row. Gross unemployment counts people on unemployment benefit or social assistance who are available for work, including those placed in job training schemes.</li>
+    <li>A person is long term unemployed when they have been gross unemployed for at least 52 consecutive weeks; a break of up to four weeks without ordinary work does not end the spell. Gross unemployment counts people on unemployment benefit or social assistance who are available for work, including those placed in job training schemes.</li>
     <li>A new enterprise is a business that starts real activity in a year and is not a takeover, split or change of legal form of an existing one. It is a firm, not a person.</li>
     <li>Self employed is a person's main labour market status in the registers: running their own business, or working in a spouse's business.</li>
     <li>A fixed effects regression compares each municipality with itself over time, and each year with that year's national average, so stable differences between places and national booms and slumps cannot drive the estimate.</li>
@@ -217,9 +219,10 @@ footer p{margin:0 0 8px}
     <dt>Labour force</dt><dd>People in work plus the gross unemployed. I use it as the denominator for new firms, from table RAS400.</dd>
     <dt>Percentage point</dt><dd>A change in a percentage: from 0.5 to 1.5 percent of the labour force is one percentage point.</dd>
     <dt>95 percent confidence interval</dt><dd>The range of values compatible with the data at the usual standard. My standard errors are clustered by municipality, so repeated years of one place are not treated as independent evidence.</dd>
+    <dt>Pooled</dt><dd>All municipality years put into one regression as separate observations, with no municipality or year effects.</dd>
     <dt>Ecological fallacy</dt><dd>Reading a pattern across places as if it described the people in them (Robinson 1950).</dd>
     <dt>Necessity entrepreneur</dt><dd>A person who starts a firm because they have no other options for work, often after unemployment.</dd>
-    <dt>Home industry</dt><dd>The industry a founder worked in before; founding outside it means entering an industry they have not worked in.</dd>
+    <dt>Home industry</dt><dd>The industry a founder last worked in; founding outside it means entering an industry other than that one.</dd>
     <dt>ISCO-08 and DISCO-08</dt><dd>The international classification of occupations and its Danish version, which share the same four digit codes.</dd>
     <dt>Generative AI exposure</dt><dd>A score from 0 to 1 for how much of an occupation's tasks generative AI could perform. It measures technical potential, not expected job loss.</dd>
   </dl>
@@ -229,7 +232,7 @@ footer p{margin:0 0 8px}
 <p class="why">The question on this page is the first step of the project's own question, and the 2019 paper is the reason duration and home industry appear in every act below.</p>
 <blockquote>&ldquo;We find that unemployment duration affects whether ventures are launched in &lsquo;home&rsquo; or in external industries, and moderates the extent to which founders&rsquo; industry experience and the attractiveness of external opportunities relative to those in the &lsquo;home&rsquo; industry shape industry choice.&rdquo;
   <cite>Nikiforou, Dencker and Gruber (2019), Necessity entrepreneurship and industry choice in new firm creation, Strategic Management Journal 40(13), 2165 to 2190, <a href="https://doi.org/10.1002/smj.3075">doi 10.1002/smj.3075</a>. Abstract, published under CC BY.</cite></blockquote>
-<p>The paper analysed 576 necessity entrepreneurs in Greece, joined to three secondary data sets. The long term unemployed were less likely than the short term unemployed to stay in their home industry, and more susceptible to the sunk cost fallacy. When the long term unemployed had high industry specific experience, they were more likely to stay in their home industry, so unemployment duration changes how experience and the attractiveness of other industries shape the choice (<a href="https://www.entrepreneurship.dtu.dk/news-and-events/news/2020/07/how-does-unemployment-duration-affect-necessity-entrepreneurs">DTU Entrepreneurship, July 2020</a>).</p>
+<p>The paper analysed primary data on 576 necessity entrepreneurs in Greece, combined with three secondary data sets. The long term unemployed were less likely than the short term unemployed to stay in their home industry, and more susceptible to the sunk cost fallacy (sticking with a course because of what has already been invested in it). When the long term unemployed had high industry specific experience, they were more likely to stay in their home industry, so unemployment duration changes how experience and the attractiveness of other industries shape the choice (<a href="https://www.entrepreneurship.dtu.dk/news-and-events/news/2020/07/how-does-unemployment-duration-affect-necessity-entrepreneurs">DTU Entrepreneurship, July 2020</a>).</p>
 <p>The PhD project, The New Landscape of Necessity Entrepreneurship, funded by the Swiss National Science Foundation, asks how AI and automation shape the move from unemployment into entrepreneurship, with surveys, interviews and Danish administrative registers (DTU job advertisement 8416). Before using registers, I wanted to know how far the free public tables go on the same question.</p>
 
 <h2 id="places"><span class="no">1</span>Places with more long term unemployment have fewer new firms, but a rise in one place does not change its count</h2>
@@ -268,7 +271,7 @@ footer p{margin:0 0 8px}
 <p class="note">The shaded row is the main estimate. The lagged row loses {{first}} because AULK04 starts in January {{first}}. The largest estimate, {{lag_b}} for the year before, still has an interval from {{lag_lo}} to {{lag_hi}}.</p>
 
 <div class="verdict">
-  <h3>The public municipal panel shows no push into founding, in either direction.</h3>
+  <h3>The public municipal panel detects no push into founding.</h3>
   <p>The two way fixed effects estimate is {{fe_b}} new firms per 1,000 people in the labour force per percentage point of long term unemployment (95 percent interval {{fe_lo}} to {{fe_hi}}, {{n_obs}} municipality years), against an average of {{mean_rate}}. The negative link in the pooled data comes from stable differences between municipalities, so reading it as a statement about unemployed people would be the ecological fallacy.</p>
   <p>The estimate is aggregate and not causal. A municipality's new firms mix founders who were unemployed with founders who left jobs, and a downturn can push the first group in while it holds the second group back.</p>
 </div>
@@ -276,13 +279,22 @@ footer p{margin:0 0 8px}
 
 <h2 id="people"><span class="no">2</span>Person by person, the unemployed become self employed at {{ratio}} times the employee rate</h2>
 <p class="why">The project's question is about individuals, and FLOW1 is the public table closest to them: it counts people whose labour market status changed from one quarter to the next.</p>
-<p>For each year I divided the number of people who went from unemployed to self employed by everyone who was unemployed at the start of the quarter, and did the same for employees. Pooled over {{flow_years}}, the rate is {{rate_unemp}} percent per quarter for the unemployed against {{rate_emp}} percent for employees.</p>
+<p>For each year I divided the number of people aged 16 to 69 who went from unemployed to self employed by everyone who was unemployed at the start of the quarter, and did the same for employees. Pooled over {{flow_years}}, the rate is {{rate_unemp}} percent per quarter for the unemployed against {{rate_emp}} percent for employees.</p>
+<p>Most of that gap comes from how often the unemployed change status at all. Among people who leave their status in a quarter, the unemployed choose self employment less often than employees who leave employee work.</p>
+<table class="t" style="max-width:640px">
+  <thead><tr><th>Per quarter, {{flow_years}}</th><th class="n">Unemployed</th><th class="n">Employees</th></tr></thead>
+  <tbody>
+    <tr><td>Leave their status (unemployment, or employee work)</td><td class="n">{{left_unemp}}%</td><td class="n">{{left_emp}}%</td></tr>
+    <tr><td>Of those who leave, become self employed</td><td class="n">{{cond_unemp}}%</td><td class="n">{{cond_emp}}%</td></tr>
+    <tr class="ref"><td>All, become self employed</td><td class="n">{{rate_unemp}}%</td><td class="n">{{rate_emp}}%</td></tr>
+  </tbody>
+</table>
 
 <div id="p2wrap">
 <div class="controls">
   <div class="chips" id="p2year" role="group" aria-label="Year"></div>
 </div>
-<p class="hint"><b>Click a year</b> to redraw the rates for that year; the first chip pools {{flow_years}}. 2020 is lower, {{rate_unemp_2020}} percent for the unemployed, likely because of the pandemic lockdowns; this page does not test that.</p>
+<p class="hint"><b>Click a year</b> to redraw the rates for that year; the first chip pools {{flow_years}}.</p>
 <figure>
   <div class="chartbox" id="p2box"><div id="p2-chart"></div></div>
   <div class="legend"><span><span class="sw" style="background:var(--accent)"></span>Unemployed at the start of the quarter</span><span><span class="sw" style="background:#fff;border:1.5px solid var(--grey)"></span>Employees at the start of the quarter</span></div>
@@ -293,7 +305,8 @@ footer p{margin:0 0 8px}
   <p><b>How to read it:</b> the longer the line between the two dots, the larger the gap between the two groups at that age.</p>
   <p><b>What to take from it:</b> at every working age the unemployed move into self employment far more often than employees, with the peak at ages {{peak_age}} ({{peak_rate}} percent per quarter, pooled).</p>
 </div>
-<p>Most new self employed still come from jobs, because there are far more employees than unemployed people: in {{flow_last_year}}, {{from_unemp_last}} moves into self employment came from unemployment, against {{from_emp_last}} from employee jobs.</p>
+<p>The rate for 2020 is lower, {{rate_unemp_2020}} percent, because the pandemic swelled the number of unemployed, not because fewer became self employed: {{u2020_to_self}} did, more than in any year from 2022 to 2024. The unemployed base was {{u2020_base}} person quarters in 2020, against {{later_base_max}} at most in 2022 to 2024.</p>
+<p>Most new self employed still come from jobs, because there are far more employees than unemployed people: in the three quarter changes FLOW1 reports for {{flow_last_year}}, {{from_unemp_last}} moves into self employment came from unemployment, against {{from_emp_last}} from employee jobs.</p>
 
 <h3>How long people stay unemployed</h3>
 <p>The 2019 paper's key variable is time spent unemployed. StatBank's AULK09 counts, each month, the people whose current gross unemployment spell has lasted at least 26, 39, 52, 78, 104, 130 or 156 weeks, which shows how large the long term group is at any time.</p>
@@ -315,10 +328,10 @@ footer p{margin:0 0 8px}
 <div class="calc" id="scale">
   <h3>Why the municipal panel cannot see these moves: a rough scale</h3>
   <dl>
-    <dt>Scale</dt><dd>One more percentage point of unemployment means ten more unemployed people per 1,000 in the labour force. If each of them entered self employment at the unemployed rate rather than the employee rate for four quarters, that adds about {{benchmark}} entries per 1,000 a year.</dd>
-    <dt>Panel</dt><dd>With all gross unemployment (AUS08) as the regressor, the two way fixed effects estimate is {{unr_b}}, with an interval from {{unr_lo}} to {{unr_hi}}, which lies below that scale.</dd>
-    <dt>Reading</dt><dd>When unemployment rises in a municipality, new enterprises rise by less than the unemployed's own entry rate would add. Either their entries do not appear as new enterprises in DEMO9, or other people start fewer firms in the same years, and aggregate tables cannot tell these two apart.</dd>
-    <dt>Caveat</dt><dd>This is my back of the envelope calculation: a change of status in FLOW1 is not the same unit as a new enterprise in DEMO9, and the people who become unemployed in a downturn may differ from the average unemployed person.</dd>
+    <dt>Scale</dt><dd>One more percentage point of unemployment means ten more full time equivalent unemployed per 1,000 in the labour force. If each of them entered self employment at the unemployed rate rather than the employee rate for four quarters, that adds about {{benchmark}} entries per 1,000 a year.</dd>
+    <dt>Panel</dt><dd>With all gross unemployment in full time equivalents (AUS08) as the regressor, the two way fixed effects estimate is {{unr_b}}, with an interval from {{unr_lo}} to {{unr_hi}}, which lies below that scale. For long term unemployment the interval reaches {{fe_hi}} and the estimate for the year before is {{lag_b}}, so that specification cannot rule the scale out.</dd>
+    <dt>Reading</dt><dd>When all unemployment rises in a municipality, new enterprises rise by less than the unemployed's own entry rate would add. Either their entries do not appear as new enterprises in DEMO9, or other people start fewer firms in the same years, and aggregate tables cannot tell these two apart.</dd>
+    <dt>Caveat</dt><dd>This is my back of the envelope calculation: a change of status in FLOW1 is not the same unit as a new enterprise in DEMO9, FLOW1 counts people whose main status is unemployed while AUS08 counts full time equivalents, and the people who become unemployed in a downturn may differ from the average unemployed person.</dd>
   </dl>
 </div>
 
@@ -370,7 +383,7 @@ footer p{margin:0 0 8px}
 
 <div class="verdict">
   <h3>The Danish employee count shows no sign yet that exposed occupations are shrinking.</h3>
-  <p>Across {{n_after}} occupations, exposure and the 2022 to {{exp_last}} change in employment share correlate at {{r_after}}, as they did before ChatGPT ({{r_before}}). Exposure is a technical potential, not job loss, and LONS20 leaves out the self employed, the group the project studies.</p>
+  <p>Across {{n_after}} occupations, exposure and the 2022 to {{exp_last}} change in employment share correlate at {{r_after}}, as they did before ChatGPT ({{r_before}}). Exposure is a technical potential, not job loss, and LONS20 leaves out private firms with fewer than ten full time employees and the self employed, the group the project studies.</p>
 </div>
 <p class="handover">The job stock shows no AI shift yet, and the stock is the wrong unit anyway: the project needs the job each founder left. That is the last panel, and it is empty in the public record.</p>
 
@@ -381,20 +394,20 @@ footer p{margin:0 0 8px}
   <table class="t stack">
     <thead><tr><th>What the project needs</th><th>Closest public table</th><th>What it lacks</th><th>What registry data adds</th></tr></thead>
     <tbody>
-      <tr><td>Previous occupation and industry of each founder</td><td data-k="Closest public table">FLOW1 status moves; LONS20 employees by occupation</td><td class="miss" data-k="What it lacks">No link from a founder to the job they left</td><td data-k="What registry data adds">Employer, industry and DISCO code of the last job, linked by person</td></tr>
-      <tr><td>Unemployment spell length per person</td><td data-k="Closest public table">AULK09 counts of spells</td><td class="miss" data-k="What it lacks">Spells are counted, never followed into self employment</td><td data-k="What registry data adds">Weekly benefit records, so the exact spell before founding</td></tr>
+      <tr><td>Previous occupation and industry of each founder</td><td data-k="Closest public table">FLOW1 status moves; LONS20 employees by occupation</td><td class="miss" data-k="What it lacks">No link from a founder to the job they left</td><td data-k="What registry data adds">Employer, industry and DISCO code of the last job, linked by person (registers such as IDAN and AKM)</td></tr>
+      <tr><td>Unemployment spell length per person</td><td data-k="Closest public table">AULK09 counts of spells</td><td class="miss" data-k="What it lacks">Spells are counted, never followed into self employment</td><td data-k="What registry data adds">Weekly benefit records (DREAM), so the exact spell before founding</td></tr>
       <tr><td>Founding in the home industry or a new one</td><td data-k="Closest public table">DEMO11 new enterprises by industry</td><td class="miss" data-k="What it lacks">Firms by industry, with no founder attached</td><td data-k="What registry data adds">The industry of the new firm next to the industry of the founder's last job</td></tr>
-      <tr><td>Education and age of each founder</td><td data-k="Closest public table">FLOW1 by age band</td><td class="miss" data-k="What it lacks">Age bands only, no education for founders</td><td data-k="What registry data adds">Highest education and exact age</td></tr>
+      <tr><td>Education and age of each founder</td><td data-k="Closest public table">FLOW1 by age band</td><td class="miss" data-k="What it lacks">Age bands only, no education for founders</td><td data-k="What registry data adds">Highest education (UDDA) and exact age</td></tr>
       <tr><td>AI exposure of the job each founder left</td><td data-k="Closest public table">The ILO index joined to LONS20, act 3</td><td class="miss" data-k="What it lacks">Exposure of the job stock, not of the people who leave it</td><td data-k="What registry data adds">The ILO score of each founder's last occupation</td></tr>
     </tbody>
   </table>
   <div class="question" id="question">
     <h3>The question I would want to test inside the project: does the AI exposure of a person's last job change how far from their home industry they found after unemployment?</h3>
     <dl>
-      <dt>Why</dt><dd>The 2019 paper showed that time in unemployment changes industry choice. Exposure could act on the same choice: a founder whose last job is highly exposed may expect less from staying in the home industry.</dd>
+      <dt>Why</dt><dd>The 2019 paper showed that time in unemployment changes industry choice. Exposure could act on the same choice: a person whose last occupation is highly exposed may expect less from staying in it, and so from the industries where it is common.</dd>
       <dt>Prediction</dt><dd>Higher exposure of the last job goes with founding further from the home industry, and more so after long spells.</dd>
-      <dt>Design</dt><dd>People who become self employed within a year of an unemployment spell. Outcome: founding in the home industry or not, and the distance between the old and the new industry. Main variable: the ILO exposure of the last occupation, interacted with spell length in weeks. Controls: industry experience, education, age, local labour market and year.</dd>
-      <dt>Comparison</dt><dd>Spells that ended before and after late 2022, and people from the same spells who returned to a job instead of founding.</dd>
+      <dt>Design</dt><dd>Everyone who leaves an unemployment spell, with the exit modelled as one choice among a job or a firm, each inside or outside the home industry, so founders are not selected on the outcome. Main variable: the ILO exposure of the last occupation, interacted with spell length in weeks. Controls: industry specific experience, the attractiveness of other industries relative to the home industry, education, age, local labour market and year. Distance: the first level of the industry code at which the old and the new industry differ.</dd>
+      <dt>Comparison</dt><dd>More and less exposed occupations over the same months, before and after late 2022, so that a general slowdown in those years is not read as an effect of AI.</dd>
       <dt>Caveat</dt><dd>Exposure is a technical score from one index, so I would repeat the analysis with a second index and treat exposure as a feature of the job, not as a measured shock.</dd>
     </dl>
   </div>
@@ -409,6 +422,7 @@ footer p{margin:0 0 8px}
   <li>LONS20 counts employees only, in all of government and in private firms with at least ten full time employees outside farming, forestry and fishing. The self employed are not in it.</li>
   <li>Two Danish codes for educational work have no ISCO match ({{edu_2343}} and {{edu_2357}} full time employees in {{exp_last}}), so the exposure shares leave them out.</li>
   <li>Exposure scores are contested: they measure what a model judges generative AI could do with each task, and indices built in other ways rank occupations differently. The ILO scores are themselves produced from two language models' task ratings, with expert review of disputed tasks.</li>
+  <li>DEMO9 places a new firm by its location, while AULK04 and RAS400 count people where they live, so founders who commute across municipal borders blur the panel.</li>
   <li>The panel is aggregate and not causal. Clustering by municipality allows for correlation within a municipality over time, but not between neighbouring municipalities that share a commuting area.</li>
 </ul>
 
@@ -737,8 +751,8 @@ python3 -I analysis/render.py analysis/page.html data/results.json index.html</p
 
   // ---------------------------------------------------------------- walkthrough (spotlight)
   var STEPS = [
-    { sel: "#headline", title: "Five questions, five answers", text: "These are the questions the page answers, each with its number. Every number is computed from the downloaded tables, not typed." },
     { sel: "#blufbox", title: "The answer in one chart", text: "Five estimates of the same link from the same data. Comparing places gives a negative link; following each municipality over time gives none. The dashed line is no link at all." },
+    { sel: "#headline", title: "Five questions, five answers", text: "These are the questions the page answers, each with its number. Every number is computed from the downloaded tables, not typed." },
     { sel: "#p1wrap", small: "#p1box", title: "Switch the view", text: "Click Follow each place over time: the dots move to where only within municipality changes remain, and the slope flattens. Pick a municipality to see its path from 2009 to 2021." },
     { sel: "#p2wrap", small: "#p2box", title: "People, not places", text: "Each row is an age group. The dark dot is the share of the unemployed who are self employed a quarter later; the open dot is the share of employees. Click a year to redraw." },
     { sel: "#p3wrap", small: "#p3box", title: "Before and after ChatGPT", text: "Each circle is an occupation. Switch the period to compare the years before and after ChatGPT, and type an occupation to read its numbers." },
@@ -747,7 +761,8 @@ python3 -I analysis/render.py analysis/page.html data/results.json index.html</p
   var tour = { on: false, i: 0, hole: null, card: null };
   function hel(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
   tour.place = function () {
-    var st = STEPS[tour.i], t = document.querySelector(st.small && window.innerWidth < 700 ? st.small : st.sel);
+    var st = STEPS[tour.i], t = document.querySelector(st.sel);
+    if (st.small && (window.innerWidth < 700 || t.getBoundingClientRect().height + 290 > window.innerHeight)) t = document.querySelector(st.small);
     if (!t) return;
     var r = t.getBoundingClientRect(), pad = 8;
     var top = r.top + window.scrollY, left = r.left + window.scrollX;

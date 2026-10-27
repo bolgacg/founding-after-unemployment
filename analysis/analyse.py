@@ -85,8 +85,8 @@ def municipalities(raw, out):
     specs = [
         {"key": "main", "label": "Main estimate: long term unemployment, same year", "years": f"{FIRST} to {LAST}", **main},
         {"key": "lag", "label": "Long term unemployment of the year before", "years": f"{FIRST + 1} to {LAST}", **fe("rate", "ltu_lag")},
-        {"key": "unr", "label": "All gross unemployment instead of long term (AUS08)", "years": f"{FIRST} to {LAST}", **fe("rate", "unr")},
-        {"key": "unr_lag", "label": "All gross unemployment of the year before", "years": f"{FIRST} to {LAST}", **fe("rate", "unr_lag")},
+        {"key": "unr", "label": "All gross unemployment in full time equivalents (AUS08)", "years": f"{FIRST} to {LAST}", **fe("rate", "unr")},
+        {"key": "unr_lag", "label": "All gross unemployment in full time equivalents, year before", "years": f"{FIRST} to {LAST}", **fe("rate", "unr_lag")},
         {"key": "emp", "label": "New firms per 1,000 salaried employees working in the municipality (RAS305)", "years": f"{FIRST} to {LAST}", **fe("rate_emp", "ltu")},
         {"key": "weighted", "label": "Municipalities weighted by their labour force", "years": f"{FIRST} to {LAST}", **fe("rate", "ltu", weights="lf")},
         {"key": "nocovid", "label": "Leaving out 2020 and 2021", "years": f"{FIRST} to 2019",
@@ -154,10 +154,19 @@ def breaks(raw):
 # ---------------------------------------------------------------- panel 2: flows and spells
 def flows(raw, out, ladder_unr):
     f = read(raw, "FLOW1")
+    f = f[~f["ALDER"].isin(["-16", "OV69"])].copy()          # ages 16 to 69, as in the chart
     f["from"] = np.where(f["TIDSOCIO"] == "50", "unemployed", "employee")
+    employee_codes = {"15", "20", "25", "30", "35", "40"}
+    # "Leaving" means leaving unemployment, or leaving employee work altogether.
+    f["left"] = np.where(f["from"] == "unemployed", f["NYSOCIO"] != "50", ~f["NYSOCIO"].isin(employee_codes))
     f["to_self"] = np.where(f["NYSOCIO"] == "06", f["v"], 0.0)
-    zero_cells = int(((f["NYSOCIO"] == "06") & (f["TIDSOCIO"] == "50") & (f["v"] == 0)
-                      & ~f["ALDER"].isin(["-16", "OV69"])).sum())
+    zero_cells = int(((f["NYSOCIO"] == "06") & (f["TIDSOCIO"] == "50") & (f["v"] == 0)).sum())
+    pooled_years = f[f["TID"].isin(FLOW_YEARS)]
+    cond = {}
+    for frm in ("unemployed", "employee"):
+        g = pooled_years[pooled_years["from"] == frm]
+        left = g.loc[g["left"], "v"].sum()
+        cond[frm] = {"left_share": float(100 * left / g["v"].sum()), "self_among_left": float(100 * g["to_self"].sum() / left)}
     by_age = f.groupby(["from", "ALDER", "TID"]).agg(to_self=("to_self", "sum"), base=("v", "sum")).reset_index()
     by_age = by_age[~by_age["ALDER"].isin(["-16", "OV69"])]
     by_age["rate"] = 100 * by_age["to_self"] / by_age["base"]
@@ -187,6 +196,9 @@ def flows(raw, out, ladder_unr):
         series[f"{frm}_pooled"] = [{"age": a, "rate": float(100 * s.loc[a, "to_self"] / s.loc[a, "base"]),
                                     "n": int(s.loc[a, "to_self"]), "base": int(s.loc[a, "base"])} for a in ages]
     peak = max(series["unemployed_pooled"], key=lambda r: r["rate"])
+    u20 = by_year[(by_year["from"] == "unemployed") & (by_year["TID"] == "2020")].iloc[0]
+    later = by_year[(by_year["from"] == "unemployed") & by_year["TID"].isin(["2022", "2023", "2024"])]
+    assert u20["to_self"] > later["to_self"].max(), "2020 entries are not above every year from 2022 to 2024"
     # A rough scale for the panel: one more point of unemployment is ten more unemployed people per
     # 1,000 in the labour force. If each of them moved into self-employment at the unemployed rate
     # instead of the employee rate, for four quarters, the extra entries per 1,000 would be:
@@ -207,7 +219,9 @@ def flows(raw, out, ladder_unr):
         "years": FLOW_YEARS, "rate_unemp": u, "rate_emp": e, "ratio": u / e, "zero_cells": zero_cells,
         "by_year": yr, "last_year": last, "from_unemp_last": from_unemp_last, "from_emp_last": from_emp_last,
         "share_from_unemp_last": 100 * from_unemp_last / (from_unemp_last + from_emp_last),
-        "ages": [age_labels[a] for a in ages], "series": series, "peak_age": age_labels[peak["age"]],
+        "ages": [age_labels[a] for a in ages], "series": series, "peak_age": age_labels[peak["age"]], "cond": cond,
+        "u2020_to_self": int(u20["to_self"]), "u2020_base": int(u20["base"]),
+        "later_base_min": int(later["base"].min()), "later_base_max": int(later["base"].max()),
         "peak_rate": peak["rate"], "benchmark": benchmark,
         "unr_b": ladder_unr["b"], "unr_lo": ladder_unr["lo"], "unr_hi": ladder_unr["hi"],
         "spells": spells, "spell_first": first_full, "peak52_month": peak52, "peak52": int(cnt.loc[peak52, "052"]),

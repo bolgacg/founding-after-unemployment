@@ -101,7 +101,7 @@
    },
    {
     "key": "unr",
-    "label": "All gross unemployment instead of long term (AUS08)",
+    "label": "All gross unemployment in full time equivalents (AUS08)",
     "years": "2009 to 2021",
     "b": 0.017557155830707605,
     "lo": -0.20952274200673315,
@@ -111,7 +111,7 @@
    },
    {
     "key": "unr_lag",
-    "label": "All gross unemployment of the year before",
+    "label": "All gross unemployment in full time equivalents, year before",
     "years": "2009 to 2021",
     "b": 0.013091668456624616,
     "lo": -0.20996807390268407,
@@ -10561,34 +10561,34 @@
    "2024"
   ],
   "rate_unemp": 1.4079415532993607,
-  "rate_emp": 0.2536996867917276,
-  "ratio": 5.549638515932411,
+  "rate_emp": 0.2526463123546212,
+  "ratio": 5.572776978921963,
   "zero_cells": 11,
   "by_year": {
    "2020_employee": {
-    "to_self": 20486,
-    "base": 8063785,
-    "rate": 0.25404943212151615
+    "to_self": 19748,
+    "base": 7833436,
+    "rate": 0.25209882355584445
    },
    "2021_employee": {
-    "to_self": 22202,
-    "base": 8281290,
-    "rate": 0.26809832767600217
+    "to_self": 21489,
+    "base": 8039535,
+    "rate": 0.26729157843084206
    },
    "2022_employee": {
-    "to_self": 22663,
-    "base": 8638471,
-    "rate": 0.26234966812992716
+    "to_self": 21929,
+    "base": 8365336,
+    "rate": 0.26214129354756344
    },
    "2023_employee": {
-    "to_self": 21971,
-    "base": 8745281,
-    "rate": 0.2512326362068869
+    "to_self": 21159,
+    "base": 8460336,
+    "rate": 0.25009645007006814
    },
    "2024_employee": {
-    "to_self": 20633,
-    "base": 8812336,
-    "rate": 0.23413769061915024
+    "to_self": 19776,
+    "base": 8522575,
+    "rate": 0.23204254582681877
    },
    "2020_unemployed": {
     "to_self": 3519,
@@ -10618,8 +10618,8 @@
   },
   "last_year": "2024",
   "from_unemp_last": 3164,
-  "from_emp_last": 20633,
-  "share_from_unemp_last": 13.295793587426987,
+  "from_emp_last": 19776,
+  "share_from_unemp_last": 13.792502179598953,
   "ages": [
    "16-19 years",
    "20-24 years",
@@ -11452,8 +11452,22 @@
    ]
   },
   "peak_age": "45-49 years",
+  "cond": {
+   "unemployed": {
+    "left_share": 52.44824449191175,
+    "self_among_left": 2.6844398071635833
+   },
+   "employee": {
+    "left_share": 4.465013578919378,
+    "self_among_left": 5.658354849074538
+   }
+  },
+  "u2020_to_self": 3519,
+  "u2020_base": 387172,
+  "later_base_min": 209818,
+  "later_base_max": 251791,
   "peak_rate": 1.9083876320862923,
-  "benchmark": 0.4616967466030532,
+  "benchmark": 0.4621180963778958,
   "unr_b": 0.017557155830707605,
   "unr_lo": -0.20952274200673315,
   "unr_hi": 0.24463705366814836,
